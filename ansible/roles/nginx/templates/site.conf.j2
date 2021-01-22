@@ -1,0 +1,14 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name _;
+  #server_name {{ domain }};
+  #root /var/www/{{ domain }};
+  location /vendor1 {
+    proxy_pass https://vgo67gsb1b.execute-api.ap-southeast-1.amazonaws.com/v1/pets;
+    #try_files $uri $uri/ =404;
+  }
+  location /vendor2 {
+    proxy_pass https://ppifkz7xjg.execute-api.ap-southeast-1.amazonaws.com/v1/pets;
+  }  
+}

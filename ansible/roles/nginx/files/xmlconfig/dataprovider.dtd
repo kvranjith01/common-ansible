@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by Ben Burdsall (Andersen consulting) -->
+<!-- edited with Notepad by Milosz Elofsson (Andersen consulting) 2000-12-12: Added CACHE element and CACHESETTINGS element-->
+<!-- ALL is the Root Element: The Datasource defined here will act as the default datasource for all Queries -->
+<!ELEMENT ALL (DATASOURCE, CACHESETTINGS?, QUERY+, TRANSACTION*)>
+<!-- Cache Settings are used for setting general settings for Datarovider cache -->
+<!ATTLIST CACHESETTINGS 
+	maxCacheSize CDATA #REQUIRED
+>
+<!ELEMENT CACHESETTINGS EMPTY>
+<!-- A Query contains any SQL statement (select, update, delete, call) , Followed by MAP elements and an optional datasource that overrides the default datasources defined above. Each Query has a unique identifier (logical name) e.g. ("find available seats") -->
+<!ATTLIST QUERY
+	id CDATA #REQUIRED
+	logging (true | false) "false"
+>
+<!ELEMENT QUERY (SQL, CACHE?, BEAN?, MAP*, DATASOURCE?)>
+<!ATTLIST SQL 
+	maxrows CDATA #IMPLIED
+>
+<!ELEMENT SQL (#PCDATA)>
+
+<!-- Cache Tag is used for enable/disable the query cache and set time to live value -->
+<!ATTLIST CACHE 
+	enabled (true | false) "false"
+	ttl CDATA #REQUIRED
+>
+<!ELEMENT CACHE EMPTY>
+
+<!--  Beans are optionals, By default the result is returned as a ResultContainer (hashtable) - but if you specify a bean object the data can be  packaged automatically into a bean. If a bean is being used the MAP output should be the exact name of the method to call (2nd Iteration) -->
+<!ATTLIST BEAN
+	class CDATA #REQUIRED
+>
+<!ELEMENT BEAN EMPTY>
+<!-- MAP defines the mapping between application logical field names (e.g. "Booking  Number", "Flight No") and  the physical database column name (e.g. "col1"). This mapping acts as an isolation layer between the database and the application code. The mapping works in both directions. 
+use <MAP  output="Booking Number" paramno="1" /> for data retrieved from the database - the value for column no 1, returned from the database, will be accessible under the field name "Booking Number" to the application 
+use <MAP input="Flight  No" paramno="1" /> for ? parameters (eg Select seatsAvailable from AVTable where flightid=?)  
+use <MAP paramno="2" parmaout="logicaloutparameter" for stored procedures which have output parameters in their call line eg { call stored-proc (in1,out1,in2,out2,out3)
+     The in parameters would be registered with input, the out out parameters with paramout-->
+<!ATTLIST MAP
+	input CDATA #IMPLIED
+	paramno CDATA #IMPLIED
+	output CDATA #IMPLIED
+	paramout CDATA #IMPLIED
+>
+<!ELEMENT MAP EMPTY>
+<!--DATASOURCE  contains either a URL of a database server or a name of a connection pool to use-->
+<!ELEMENT DATASOURCE EMPTY>
+<!ATTLIST DATASOURCE
+	url CDATA #REQUIRED
+	pool CDATA #REQUIRED
+>
+<!-- Transactions will be included for a later release  : If you need to use transactions for the moment, consider storing the transaction in a stored procedure. This will give you best perfromance in any case (3rd Iteration)-->
+<!ATTLIST TRANSACTION
+	id CDATA #REQUIRED
+>
+<!ELEMENT TRANSACTION (QUERYNAME+)>
+<!ELEMENT QUERYNAME EMPTY>
+<!ATTLIST QUERYNAME
+	id CDATA #REQUIRED
+>

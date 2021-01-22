@@ -1,0 +1,10 @@
+logs:
+  # TODO determine use of these, if any.
+  - file: "/var/log/audit/audit.log"
+    format: "%b %d %H:%M:%S"
+    group_name: "auth"
+    stream_name: "auth-stream"
+  - file: "/var/log/secure"
+    format: "%b %d %H:%M:%S"
+    group_name: "auth"
+    stream_name: "auth-stream"

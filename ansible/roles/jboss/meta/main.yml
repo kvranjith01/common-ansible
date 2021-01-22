@@ -1,0 +1,6 @@
+dependencies:
+  - shared-services-client
+  - common
+  - role: jbosseap
+    vars:
+      jboss_eap_default_config: standalone-full.xml

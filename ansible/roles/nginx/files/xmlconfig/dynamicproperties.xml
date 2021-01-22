@@ -1,0 +1,2508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ALL SYSTEM "dynamicproperties.dtd">
+<ALL>
+  <GROUP name="Component Factory">
+    <!-- Common Properties used by most Components -->
+    <GROUP name="Common">
+      <PROPERTY name="saxparser" type="String">com.sun.xml.parser.ValidatingParser</PROPERTY>
+      <PROPERTY name="domparserresolver" type="String">com.sun.xml.parser.Resolver</PROPERTY>
+    </GROUP>
+    <!--- end of Common Group -->
+    <!-- Logger settings -->
+    <GROUP name="Logger">
+      <GROUP name="general">
+        <PROPERTY name="cfloggerfile" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/logger/debug.log</PROPERTY>
+        <PROPERTY name="cfeventfile" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/event/event.log</PROPERTY>
+        <PROPERTY name="cfperformancelogfile" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/performance/performance.log</PROPERTY>
+        <PROPERTY name="cfaccessperformancelogfile" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/accessperformance/accessperformance.log</PROPERTY>
+        <PROPERTY name="cfloggerclass" type="String">com.singaporeair.cf.logger.FileLogger</PROPERTY>
+    <PROPERTY name="cfsysadmindirectorypath" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/log/</PROPERTY>
+    <PROPERTY name="cfloghome" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/log/</PROPERTY>
+    <PROPERTY name="cfeventhome" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/event/</PROPERTY>
+      </GROUP>
+      <!-- Logging states for Logger starts -->
+      <GROUP name="loggingstate">
+        <PROPERTY name="cferrorstate" type="String">true</PROPERTY>
+        <PROPERTY name="cfwarningstate" type="String">true</PROPERTY>
+        <PROPERTY name="cfinfostate" type="String">false</PROPERTY>
+        <PROPERTY name="cfeventstate" type="String">false</PROPERTY>
+        <PROPERTY name="cfscreenstate" type="String">true</PROPERTY>
+        <PROPERTY name="cfperformancelog" type="String">false</PROPERTY>
+        <PROPERTY name="cfaccessperformancelog" type="String">false</PROPERTY>
+      </GROUP>
+      <!-- Logging states for Logger ends -->
+    </GROUP>
+    <!-- end of Logger settings -->
+    <!-- scheduler componet defines the period for specific classes to be automatically called under the weblogic time API -->
+    <GROUP name="Scheduler">
+      <!-- The Dynamic properties should be reloaded once every minute -->
+      <GROUP name="DynaProp">
+        <PROPERTY name="class" type="String">com.singaporeair.cf.dynaprop.DynaProp</PROPERTY>
+        <PROPERTY name="every" type="int">1</PROPERTY>
+      </GROUP>
+
+
+      <!-- Start Singleton, Configuration of this Should appear before other components which actually uses this-->
+      <GROUP name="SingletonRegistry">
+        <PROPERTY name="class" type="String">com.singaporeair.cf.singleton.SingletonRegistry</PROPERTY>
+        <PROPERTY name="every" type="int">5</PROPERTY>
+      </GROUP>
+      <!-- end Singleton -->
+        <!-- The Formvalidator should be reloaded once every 2 hours -->
+        <GROUP name="FormValidator">
+          <PROPERTY name="class" type="String">com.singaporeair.cf.formvalidator.FormSet</PROPERTY>
+          <PROPERTY name="every" type="int">1</PROPERTY>
+        </GROUP>
+      <!-- The DataProvide should be reloaded once every 2 hours -->
+      <GROUP name="DataProvider">
+        <PROPERTY name="class" type="String">com.singaporeair.cf.dataprovider.QueryMapperScheduler</PROPERTY>
+        <PROPERTY name="every" type="int">1</PROPERTY>
+      </GROUP>
+      <GROUP name="PreloadCache">
+        <PROPERTY name="class" type="String">com.singaporeair.cf.dataprovider.PreloadCache</PROPERTY>
+        <PROPERTY name="every" type="int">60</PROPERTY>
+      </GROUP>
+      <GROUP name="AccessLogger">
+        <PROPERTY name="class" type="String">com.singaporeair.mysia.arch.sqaccess.AccessLogger</PROPERTY>
+        <PROPERTY name="every" type="int">1</PROPERTY>
+      </GROUP>
+      <GROUP name="HostCheck">
+        <PROPERTY name="class" type="String">com.singaporeair.mysia.arch.squtil.HostCheck</PROPERTY>
+        <PROPERTY name="every" type="int">10000</PROPERTY>
+      </GROUP>
+      <GROUP name="ServerCheck">
+        <PROPERTY name="class" type="String">com.singaporeair.mysia.arch.squtil.ServerCheck</PROPERTY>
+        <PROPERTY name="every" type="int">10000</PROPERTY>
+      </GROUP>
+      
+     <GROUP name="BookingStatusTracker">
+        <!-- Sets the booking status tracker schedule -->
+        <PROPERTY name="class" type="String">com.singaporeair.mysia.bookingstatustracker.BookingStatusTrackerScheduler</PROPERTY>
+    <PROPERTY name="every" type="int">20</PROPERTY>
+    <PROPERTY name="difference" type="int">20</PROPERTY>
+      </GROUP>
+
+    <!-- Added for MKP91157 Starts -->
+    <GROUP name="ApplogDBUpdateTracker">              
+              <PROPERTY name="class" type="String">com.singaporeair.mysia.arch.logging.ApplogDBUpdateSchdeuler</PROPERTY>
+              <PROPERTY name="server1At" type="String">01:00:00</PROPERTY>          
+              <PROPERTY name="akamai_audit" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/akamai_audit.log</PROPERTY>
+        <PROPERTY name="amadeus_audit" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/amadeus_audit.log</PROPERTY>
+        <PROPERTY name="blacklistedip" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/blacklistedip.log</PROPERTY>
+        <PROPERTY name="pricing_od_fpCount" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/logs/pricing_od_fpCount.log</PROPERTY>
+        <PROPERTY name="dateFormat" type="String">yyyy-MM-dd</PROPERTY>
+        <PROPERTY name="report_name" type="String">SAA_APPLOG_UPDATE</PROPERTY>
+      </GROUP>
+<!-- Added for MKP91157 Ends -->
+
+
+   <GROUP name="PaymentTracker">
+        <!-- Sets the payment tracker schedule -->
+        <PROPERTY name="class" type="String">com.singaporeair.mysia.paymenttracker.PaymentTrackerScheduler</PROPERTY>
+    <PROPERTY name="every" type="int">20</PROPERTY>
+    <PROPERTY name="difference" type="int">20</PROPERTY>
+      </GROUP>
+
+    <!-- Start 01 Scheduled job for house keeping of barcode images for 2DBP -->
+
+   
+  
+    <!-- End 01 Scheduled job for house keeping of barcode images for 2DBP -->
+
+     <!-- Added for MKP91488 - Inclusion of more titles -->
+     <GROUP name="TitleInclusionDailyScheduler">
+        <PROPERTY name="class" type="String">com.singaporeair.mysia.util.TitleIncludeScheduler</PROPERTY>
+        <PROPERTY name="at" type="String">01:30:00</PROPERTY>
+     </GROUP>
+     <!-- Added for MKP91488 - Inclusion of more titles -->
+
+
+    <!-- Start of Scheduled job for Downloading OD pairs from MARMS -->
+       <!-- End of Scheduled job for Downloading OD pairs from MARMS -->
+
+
+    <GROUP name="DBErrorLoggingReportSchdeuler">
+        <PROPERTY name="class" type="String">com.singaporeair.mysia.arch.logging.DBErrorLoggingReportSchdeuler</PROPERTY>
+    <PROPERTY name="every" type="String">03:00:00</PROPERTY>
+      </GROUP>
+
+    <!-- Added for MKP91158 Starts -->
+      <GROUP name="FraudulentEmailLoggingReportSchdeuler">
+        <PROPERTY name="class" type="String">com.singaporeair.mysia.arch.logging.FraudulentEmailLoggingReportSchdeuler</PROPERTY>
+    <PROPERTY name="every" type="String">01:00:00</PROPERTY>
+      </GROUP>
+    <!-- Added for MKP91158 Ends -->
+
+    <!-- MKP 91226 Linking SQ Booking Engine to MI Sambath -->
+    <GROUP name="DeepLinkEmailLoggingReportSchdeuler">
+      <PROPERTY name="class" type="String">com.singaporeair.mysia.arch.logging.DeepLinkEmailLoggingReportSchdeuler</PROPERTY>
+      <PROPERTY name="every" type="String">01:00:00</PROPERTY>
+    </GROUP>
+    <!-- MKP 91226 Linking SQ Booking Engine to MI Sambath -->
+     <!-- Sets the schedule to generate the new tax codes email-->
+    <GROUP name="SAA_NEW_TAXCODES_SCHEDULER">
+      <PROPERTY name="class" type="String">com.singaporeair.mysia.util.GenerateNewTaxCodesEmail_Scheduler</PROPERTY>
+      <PROPERTY name="at" type="String">01:00:00</PROPERTY>       
+       </GROUP>
+
+    </GROUP>
+    <!-- end scheduler -->
+      <!-- Start formValidator-->
+      <GROUP name="FormValidator">
+        <GROUP name="HTMLTags">
+          <PROPERTY name="newformpadding" type="String"/>
+          <PROPERTY name="passedpadding" type="String"><![CDATA[<font color="blue"><B> </B></font>&nbsp]]></PROPERTY>
+          <PROPERTY name="failedpadding" type="String"><![CDATA[<font color="red"><B> </B></font>&nbsp]]></PROPERTY>
+          <PROPERTY name="optionalmarker" type="String"/>
+          <PROPERTY name="requiredmarker" type="String"/>
+        </GROUP>
+        <!-- The Client Side Validation -->
+        <GROUP name="Client Display Method">
+          <PROPERTY name="jspath" type="String">/</PROPERTY>
+          <PROPERTY name="jsfile" type="String">displaymessage.js</PROPERTY>
+        </GROUP>
+        <!-- end of Client Side Validation -->
+        <PROPERTY name="clientsidevalinclude" type="boolean">false</PROPERTY>
+        <PROPERTY name="emptyfieldsreturnnull" type="boolean">false</PROPERTY>
+        <PROPERTY name="maxbusinessactions" type="int">20</PROPERTY>
+        <PROPERTY name="hiddenformidentifier" type="String">cffvhidformid</PROPERTY>
+        <PROPERTY name="minemaillength" type="int">5</PROPERTY>
+        <PROPERTY name="locktimeoutms" type="int">30000</PROPERTY>
+        <PROPERTY name="xmlpath" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/</PROPERTY>
+        <PROPERTY name="rulefile" type="String">rule.xml</PROPERTY>
+        <PROPERTY name="xmlfile" type="String">formvalidator.xml</PROPERTY>
+        <PROPERTY name="chkDate" type="String">dd/mm/yyyy</PROPERTY>
+        <PROPERTY name="errMark" type="String"/>
+        <PROPERTY name="maxdispatchpages" type="int">20</PROPERTY>
+      </GROUP>
+      <!-- end formValidator-->
+
+    <!-- Start 02 of 2DBP reading bp congif files -->
+
+    <GROUP name="BPConfig">
+    <PROPERTY name="xmlpath" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/bpconfig/</PROPERTY>
+        <PROPERTY name="bpdataobjxmlfile" type="String">BPDataObject_map.xml</PROPERTY>
+        <PROPERTY name="cfgxmlfile" type="String">cfg.xml</PROPERTY>
+    <PROPERTY name="xslfile" type="String">BPXSL.xsl</PROPERTY>
+    <PROPERTY name="xslfilewithterms" type="String">BPXSL_terms.xsl</PROPERTY>
+    <!--
+    <PROPERTY name="imgpath" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/img/img/</PROPERTY>
+    <PROPERTY name="imgdirpath" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/img/</PROPERTY>
+    <PROPERTY name="bpxslpath" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3WebTest/en_UK/content/checkin/</PROPERTY>
+    -->
+    <PROPERTY name="imgpath" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/saa3/taw2Web/img/img/</PROPERTY>
+    <PROPERTY name="imgdirpath" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/saa3/taw2Web/img/</PROPERTY>
+    <PROPERTY name="bpxslpath" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/saa3/taw2Web/en_UK/content/checkin/</PROPERTY>
+    
+    <PROPERTY name="mcommImgpath" type="String">/saa/img/img/</PROPERTY>
+    </GROUP>
+
+    <!-- End 02 of 2DBP reading bp congif files -->
+
+    <GROUP name="PreloadCache">
+      <GROUP name="PreloaderValues">
+        <PROPERTY name="querypath" type="String">c:/precache_querylist</PROPERTY>
+        <PROPERTY name="waitTime" type="int">10000</PROPERTY>
+      </GROUP>
+      <GROUP name="PreLoadQueries"/>
+    </GROUP>
+    <!-- DataProvider Starts here-->
+    <GROUP name="DataProvider">
+      <PROPERTY name="xmlpath" type="String">/prod/applc/jbosseap/sqdirect/xmlconfig/</PROPERTY>
+      <PROPERTY name="xmlfile" type="String">dataprovider.xml</PROPERTY>
+      <PROPERTY name="sqlexecuter" type="String">com.singaporeair.cf.dataprovider.MySQLExecuter</PROPERTY>
+    </GROUP>
+    <!-- END of DataProvider -->
+  <!-- DataProvider for mediaCentre -->
+  <GROUP name="DataProviderMedia">
+      <PROPERTY name="xmlpath" type="String">/prod/applc/wls/sqdirect/sqdirect_media/dist/config/</PROPERTY>
+      <PROPERTY name="xmlfile" type="String">dataprovider_media.xml</PROPERTY>
+      <PROPERTY name="sqlexecuter" type="String">com.singaporeair.cf.dataprovider.OracleSQLExecuter</PROPERTY>
+    </GROUP>
+    <!-- Start of JNDI Properties -->
+    <GROUP name="JNDI">
+      <GROUP name="Context">
+        <GROUP name="LocalEJB">
+          <PROPERTY name="url" type="String">t3://localhost:7531</PROPERTY>
+          <PROPERTY name="principle" type="String"/>
+          <PROPERTY name="credential" type="String"/>
+        </GROUP>
+        <GROUP name="ClientDataProvider">
+          <PROPERTY name="url" type="String">t3://localhost:7531</PROPERTY>
+          <PROPERTY name="principle" type="String"/>
+          <PROPERTY name="credential" type="String"/>
+        </GROUP>
+      </GROUP>
+    </GROUP>
+    <!-- End Of JNDI -->
+    <!-- Start of JDBC Properties -->
+
+  <GROUP name="JDBC">
+      <GROUP name="ConnectionPool">
+        <PROPERTY name="principle" type="String">sqdirect</PROPERTY>
+        <PROPERTY name="credential" type="String">changeit</PROPERTY>
+    <PROPERTY name="sfaUserId" type="String">weblogic</PROPERTY>
+    <PROPERTY name="sfaPassword" type="String">weblogic</PROPERTY>
+      </GROUP>
+    </GROUP>
+
+    <!-- End Of JDBC -->
+    <!--Start Admin Page-->
+    <GROUP name="Admin Page">
+      <PROPERTY name="security" type="String">unencrypted</PROPERTY>
+    </GROUP>
+    <!--end Admin Page-->
+    <GROUP name="Mailer">
+      <GROUP name="MailerHosts">
+        <PROPERTY name="smtphost1" type="String">dev8_smtp.sq.com.sg</PROPERTY>
+      </GROUP>
+      <PROPERTY name="class" type="String">com.singaporeair.cf.NewMail.JMSMailer</PROPERTY>
+      <PROPERTY name="LogMailerPath" type="String">/prod/applc/logs/sqdirect/application/</PROPERTY>
+      <PROPERTY name="smtpProtocol" type="String">smtp</PROPERTY>
+    <PROPERTY name="timeout" type="String">20000</PROPERTY>
+      <PROPERTY name="interval" type="int">10000</PROPERTY>
+      <PROPERTY name="maxReTry" type="int">3</PROPERTY>
+    </GROUP>
+    <!-- end Mailer -->
+
+  <!-- GMS Phase 2 - MKP91351 - Lakshmi - Starts Here -->
+  <GROUP name="webservice">
+    <PROPERTY name="url" type="String">http://gmsuat.sq.com.sg:7011/GMSSQDirectService/GMSSQDirectService?WSDL</PROPERTY>
+  </GROUP>
+  <!-- GMS Phase 2 - MKP91351 - Lakshmi - Ends Here-->
+
+    <!-- END OF Component Factory -->
+  </GROUP>
+  <GROUP name="HostCheck">
+    <GROUP name="Switch">
+      <PROPERTY name="Activate" type="String">TRUE</PROPERTY>
+    </GROUP>
+    <GROUP name="Host">
+      <PROPERTY name="dev8_smtp.sq.com.sg" type="String"></PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="kfly">
+    <GROUP name="BusinessEnvironment">
+      <PROPERTY name="krisflyerEmailID" type="String">kms@krisflyer.com.sg</PROPERTY>
+      <PROPERTY name="oruFailedLoginEmailID" type="String">Singaporeair.com&lt;sia_feedback@singaporeair.com.sg&gt;</PROPERTY>
+      <PROPERTY name="kfFailedLoginEmailID" type="String">KrisFlyer&lt;sia_feedback@singaporeair.com.sg&gt;</PROPERTY>
+    </GROUP>
+    <GROUP name="failedLogin">
+      <PROPERTY name="url" type="String">https://eapsxd03:7532/saa/</PROPERTY>
+      <PROPERTY name="path" type="String">Account/resetPinIdentify.jsp</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <!--Start CBM Admin-->
+  <GROUP name="CBM">
+    <GROUP name="BusinessEnvironment">
+      <PROPERTY name="corporate_booking_email_id" type="String">SQcorporate@singaporeair.com.sg</PROPERTY>
+      <PROPERTY name="generalEmailID" type="String">SQcorporate@singaporeair.com.sg</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <!--End CBM Admin-->
+  <GROUP name="abacus">
+        <GROUP name="Environment"/>
+        <GROUP name="Technical">
+          <PROPERTY name="color" type="float">0.345</PROPERTY>
+          <PROPERTY name="IP" type="String">t3s://marmsdev.sq.com.sg:8102</PROPERTY>
+          <PROPERTY name="UserId" type="String"></PROPERTY>
+          <PROPERTY name="Password" type="String"></PROPERTY>
+          <PROPERTY name="Timeout" type="String">8000</PROPERTY>
+          <PROPERTY name="ActivateTimeout" type="String">false</PROPERTY>
+          <PROPERTY name="AgentID" type="String">SAA</PROPERTY>
+          <PROPERTY name="MstrAgentID" type="String">SAAMstr</PROPERTY>
+          <!-- MKP90335 -->
+          <PROPERTY name="SysAgentID" type="String">SAASys</PROPERTY>
+    </GROUP>
+    <GROUP name="BusinessEnvironment"/>
+    </GROUP>
+    <!--MAC server config -->
+  <GROUP name="MAC">
+        <GROUP name="Environment"/>
+        <GROUP name="Technical">
+          <PROPERTY name="color" type="float">0.345</PROPERTY>
+          <PROPERTY name="IP" type="String">t3://192.168.134.76:8301</PROPERTY> <!-- IP of eapsxd102.sq.com.sg -->
+          <PROPERTY name="UserId" type="String"></PROPERTY>
+          <PROPERTY name="Password" type="String"></PROPERTY>
+          <PROPERTY name="Timeout" type="String">5000</PROPERTY>
+          <PROPERTY name="ActivateTimeout" type="String">false</PROPERTY>
+          <PROPERTY name="AgentID" type="String">SAA</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="datalex">
+    <GROUP name="Environment"/>
+    <GROUP name="Technical"/>
+    <GROUP name="BusinessEnvironment"/>
+  </GROUP>
+  <GROUP name="interwoven">
+    <GROUP name="Environment"/>
+    <GROUP name="Technical"/>
+    <GROUP name="BusinessEnvironment"/>
+  </GROUP>
+  <GROUP name="arch">
+    <GROUP name="Environment"/>
+    <GROUP name="Technical">
+      <PROPERTY name="PageCacheTTL" type="String">20000000000</PROPERTY>
+      <PROPERTY name="SIAWebsite" type="String">eapsxd03</PROPERTY>
+      <PROPERTY name="Port" type="String">7531</PROPERTY>
+      <PROPERTY name="SSLPort" type="String">443</PROPERTY>
+      <PROPERTY name="AccessLoggerFilePath" type="String">/prod/applc/wls/sqdirect/logs/application/access/</PROPERTY>
+      <PROPERTY name="ErrorLoggerFilePath" type="String">/prod/applc/wls/sqdirect/logs/application/error/</PROPERTY>
+      <PROPERTY name="cacheTTL" type="String">20000000000000</PROPERTY>
+      <PROPERTY name="PortalFolder" type="String">main</PROPERTY>
+      <PROPERTY name="FunctionalityByFileName" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/archfunctionality.properties</PROPERTY>
+      <PROPERTY name="Title" type="String">Singapore Airlines</PROPERTY>
+
+      <!-- to fully disable the proxy, set all these properties to the empty String as
+           the ProxyEnable flag doesn't always seem to work -->
+      <PROPERTY name="ProxyEnable" type="String">true</PROPERTY>
+      <PROPERTY name="ProxyHost" type="String">proxy2.sq.com.sg</PROPERTY>
+      <PROPERTY name="ProxyPort" type="String">80</PROPERTY>
+      <PROPERTY name="ProxyAuthUserName" type="String">sqw2kdom\unimobile_proxy</PROPERTY>
+      <PROPERTY name="ProxyAuthPassword" type="String">changeit</PROPERTY>
+
+      <!-- pipe-delimited lists of hosts, the requests for which do not have to go through the proxy -->
+      <PROPERTY name="ProxyExceptionsInternal" type="String">localhost|*.singaporeair.com.sg|*.sq.com.sg|saa-ultraseek|eapsxd03|lapsxd29|eapsxd04|lapsxd30*|sindceap2k3d02.sqdev.com.sg*|eapsxd01|</PROPERTY>
+    <PROPERTY name="ProxyExceptionsExternal" type="String">wftc3.e-travel.com|www.oanda.com|sq.flightlookup.com|www.timaticweb.com|ctk-sq.innovataw3svc.com</PROPERTY>
+      <!-- end proxy settings -->
+
+      <PROPERTY name="FailedLoginDailyReportFilePath" type="String">/prod/applc/wls/saar3/logs/application/</PROPERTY>
+      <PROPERTY name="MultiLoginStatus" type="String">true</PROPERTY>
+      <PROPERTY name="SessionToLog" type="String">false</PROPERTY>
+      <PROPERTY name="LogServerSwitch" type="String">true</PROPERTY>
+    </GROUP>
+    <GROUP name="BusinessEnvironment"/>
+    <GROUP name="ErrorHandler">
+      <PROPERTY name="StackTrace" type="boolean">true</PROPERTY>
+    </GROUP>
+    <GROUP name="Security">
+      <PROPERTY name="LogConfig" type="String">com/singaporeair/mysia/arch/security/saasecuritymsg</PROPERTY>
+      <PROPERTY name="WebAccess" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/archwebaccess.properties</PROPERTY>
+      <PROPERTY name="FirstPageWebFlow" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/archfirstpagewebflow.properties</PROPERTY>
+      <PROPERTY name="SSLConfigByFileName" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/archsslconfigbyfilename.properties</PROPERTY>
+      <PROPERTY name="SSLConfigByStateID" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/archsslconfigbystateid.properties</PROPERTY>
+    </GROUP>
+    <GROUP name="Language">
+      <GROUP name="global">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+        <PROPERTY name="next01" type="String">zh_CN</PROPERTY>
+        <PROPERTY name="next02" type="String">zh_TW</PROPERTY>
+        <PROPERTY name="next03" type="String">fr_FR</PROPERTY>
+        <PROPERTY name="next04" type="String">de_DE</PROPERTY>
+        <PROPERTY name="next05" type="String">en_US</PROPERTY>
+        <PROPERTY name="next06" type="String">ja_JP</PROPERTY>
+        <PROPERTY name="next07" type="String">ko_KR</PROPERTY>
+      </GROUP>
+      <GROUP name="ae">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="au">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="bd">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="be">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+        <PROPERTY name="next01" type="String">fr_BE</PROPERTY>
+        <PROPERTY name="next02" type="String">nl_NL</PROPERTY>
+      </GROUP>
+      <GROUP name="ca">
+        <PROPERTY name="default" type="String">en_US</PROPERTY>
+      </GROUP>
+      <GROUP name="cn">
+        <PROPERTY name="default" type="String">zh_CN</PROPERTY>
+      </GROUP>
+      <GROUP name="ch">
+        <PROPERTY name="default" type="String">de_DE</PROPERTY>
+        <PROPERTY name="next01" type="String">fr_FR</PROPERTY>
+      </GROUP>
+      <GROUP name="de">
+        <PROPERTY name="default" type="String">de_DE</PROPERTY>
+      </GROUP>
+      <GROUP name="dk">
+        <PROPERTY name="default" type="String">da_DK</PROPERTY>
+      </GROUP>
+      <GROUP name="es">
+        <PROPERTY name="default" type="String">es_ES</PROPERTY>
+      </GROUP>
+      <GROUP name="fr">
+        <PROPERTY name="default" type="String">fr_FR</PROPERTY>
+      </GROUP>
+      <GROUP name="gr">
+        <PROPERTY name="default" type="String">el_GR</PROPERTY>
+        <PROPERTY name="next01" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="hk">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="it">
+        <PROPERTY name="default" type="String">it_IT</PROPERTY>
+      </GROUP>
+      <GROUP name="ph">
+        <PROPERTY name="default" type="String">en_US</PROPERTY>
+      </GROUP>
+      <GROUP name="pk">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="jp">
+        <PROPERTY name="default" type="String">ja_JP</PROPERTY>
+      </GROUP>
+      <GROUP name="kr">
+        <PROPERTY name="default" type="String">ko_KR</PROPERTY>
+      </GROUP>
+      <GROUP name="my">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="mo">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="mu">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="mv">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="nl">
+        <PROPERTY name="default" type="String">nl_NL</PROPERTY>
+      </GROUP>
+      <GROUP name="sg">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+        <PROPERTY name="next01" type="String">zh_CN</PROPERTY>
+      </GROUP>
+      <GROUP name="us">
+        <PROPERTY name="default" type="String">en_US</PROPERTY>
+      </GROUP>
+      <GROUP name="tr">
+        <PROPERTY name="default" type="String">tr_TR</PROPERTY>
+        <PROPERTY name="next01" type="String">en_UK</PROPERTY>
+      </GROUP>
+      <GROUP name="tw">
+        <PROPERTY name="default" type="String">zh_TW</PROPERTY>
+      </GROUP>
+      <GROUP name="vn">
+        <PROPERTY name="default" type="String">en_US</PROPERTY>
+        <PROPERTY name="next01" type="String">vi_VN</PROPERTY>
+      </GROUP>
+      <GROUP name="za">
+        <PROPERTY name="default" type="String">en_UK</PROPERTY>
+      </GROUP>
+    </GROUP>
+    <GROUP name="Email_Charset">
+      <PROPERTY name="da_DK" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="de_DE" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="el_GR" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="en_UK" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="en_US" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="es_ES" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="fr_FR" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="it_IT" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="ja_JP" type="String">iso-2022-jp</PROPERTY>
+      <PROPERTY name="ko_KR" type="String">EUC-KR</PROPERTY>
+      <PROPERTY name="nl_NL" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="tr_TR" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="vi_VN" type="String">iso-8859-1</PROPERTY>
+      <PROPERTY name="zh_CN" type="String">GBK</PROPERTY>
+      <PROPERTY name="zh_TW" type="String">Big5</PROPERTY>
+    </GROUP>
+    <GROUP name="Country">
+      <PROPERTY name="au" type="String">Australia</PROPERTY>
+      <PROPERTY name="bd" type="String">Bangladesh</PROPERTY>
+      <PROPERTY name="be" type="String">Belgium</PROPERTY>
+      <PROPERTY name="bn" type="String">Brunei</PROPERTY>
+      <PROPERTY name="ca" type="String">Canada</PROPERTY>
+      <PROPERTY name="cn" type="String">China</PROPERTY>
+      <PROPERTY name="dk" type="String">Denmark</PROPERTY>
+      <PROPERTY name="eg" type="String">Egypt</PROPERTY>
+      <PROPERTY name="fr" type="String">France</PROPERTY>
+      <PROPERTY name="de" type="String">Germany</PROPERTY>
+      <PROPERTY name="gr" type="String">Greece</PROPERTY>
+      <PROPERTY name="hk" type="String">Hong Kong</PROPERTY>
+      <PROPERTY name="in" type="String">India</PROPERTY>
+      <PROPERTY name="id" type="String">Indonesia</PROPERTY>
+      <PROPERTY name="it" type="String">Italy</PROPERTY>
+      <PROPERTY name="jp" type="String">Japan</PROPERTY>
+      <PROPERTY name="kr" type="String">South Korea</PROPERTY>
+      <PROPERTY name="mo" type="String">Macau</PROPERTY>
+      <PROPERTY name="my" type="String">Malaysia</PROPERTY>
+      <PROPERTY name="mv" type="String">Maldives</PROPERTY>
+      <PROPERTY name="np" type="String">Nepal</PROPERTY>
+      <PROPERTY name="mu" type="String">Mauritius</PROPERTY>
+      <PROPERTY name="nl" type="String">Netherlands</PROPERTY>
+      <PROPERTY name="nz" type="String">New Zealand</PROPERTY>
+      <PROPERTY name="pk" type="String">Pakistan</PROPERTY>
+      <PROPERTY name="ph" type="String">Philippines</PROPERTY>
+      <PROPERTY name="sa" type="String">Saudi Arabia</PROPERTY>
+      <PROPERTY name="sg" type="String">Singapore</PROPERTY>
+      <PROPERTY name="es" type="String">Spain</PROPERTY>
+      <PROPERTY name="lk" type="String">Srilanka</PROPERTY>
+      <PROPERTY name="za" type="String">South Africa</PROPERTY>
+      <PROPERTY name="ch" type="String">Switzerland</PROPERTY>
+      <PROPERTY name="tw" type="String">Taiwan</PROPERTY>
+      <PROPERTY name="th" type="String">Thailand</PROPERTY>
+      <PROPERTY name="tr" type="String">Turkey</PROPERTY>
+      <PROPERTY name="uk" type="String">England</PROPERTY>
+      <PROPERTY name="us" type="String">USA</PROPERTY>
+      <PROPERTY name="ae" type="String">United Arab Emirates</PROPERTY>
+      <PROPERTY name="vn" type="String">Vietnam</PROPERTY>
+    </GROUP>
+    <GROUP name="City">
+      <PROPERTY name="jp" type="String">Japan</PROPERTY>
+      <PROPERTY name="sg" type="String">Singapore</PROPERTY>
+      <PROPERTY name="us" type="String">Los Angeles</PROPERTY>
+      <PROPERTY name="de" type="String">Germany</PROPERTY>
+      <PROPERTY name="au" type="String">Australia</PROPERTY>
+      <PROPERTY name="global" type="String">global</PROPERTY>
+    </GROUP>
+    <GROUP name="i18n">
+      <PROPERTY name="bundle" type="String">/main/bundles/mySIALabels</PROPERTY>
+      <PROPERTY name="imgBundle" type="String">/main/bundles/mySIALayout</PROPERTY>
+    </GROUP>
+    <GROUP name="Directory">
+      <PROPERTY name="KFRelativeDir" type="String">krisflyer/</PROPERTY>
+      <PROPERTY name="BKRelativeDir" type="String">booking/</PROPERTY>
+      <PROPERTY name="CQRelativeDir" type="String">content/</PROPERTY>
+      <PROPERTY name="SVRelativeDir" type="String">services/</PROPERTY>
+      <PROPERTY name="NKRelativeDir" type="String">custdb/</PROPERTY>
+      <PROPERTY name="SCRelativeDir" type="String">schedule/</PROPERTY>
+      <PROPERTY name="CBRelativeDir" type="String">complex/</PROPERTY>
+      <PROPERTY name="CARelativeDir" type="String">corpadmin/</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="bkg">
+    <GROUP name="Environment">
+      <PROPERTY name="storefront" type="String">1003</PROPERTY>
+      <PROPERTY name="EJBServer" type="String">t3://localhost:7531</PROPERTY>
+      <PROPERTY name="EJBServerUserName" type="String"/>
+      <PROPERTY name="EJBServerPassword" type="String"/>
+      <PROPERTY name="FromEMailAddress" type="String">booking@singaporeair.com.sg</PROPERTY>
+      <PROPERTY name="OnlineSurveyCheck" type="boolean">false</PROPERTY>
+      <PROPERTY name="AlertEmailAddress" type="String">XinCheng_Fang@singaporeair.com.sg</PROPERTY>
+    </GROUP>
+    <GROUP name="Technical">
+      <PROPERTY name="returnTimeTooClose" type="String">RETURN TIME TOO CLOSE</PROPERTY>
+      <PROPERTY name="frquentFlyerNameMismatchMsg" type="String">NAME MISMATCH</PROPERTY>
+      <PROPERTY name="queueWarning" type="String">Invalid date for flight for TOD</PROPERTY>
+    </GROUP>
+    <GROUP name="BusinessEnvironment">
+      <PROPERTY name="maxNoOfPassengers" type="int">7</PROPERTY>
+      <PROPERTY name="defaultDeptCityCode" type="String">SIN</PROPERTY>
+      <PROPERTY name="ET" type="String">ELECTRONIC TICKET</PROPERTY>
+      <PROPERTY name="TIC" type="String">TICKET FOR CITY PICKUP</PROPERTY>
+      <PROPERTY name="TOD" type="String">TICKET ON DEPARTURE</PROPERTY>
+      <PROPERTY name="TBM" type="String">TICKET BY MAIL</PROPERTY>
+      <PROPERTY name="magicETDesc" type="String">INTERNET BOOKING ELECTRONIC TKT</PROPERTY>
+      <PROPERTY name="magicTICDesc" type="String">INTERNET BOOKING TKT PICKUP</PROPERTY>
+      <PROPERTY name="magicTODDesc" type="String">INTERNET BOOKING TKT ON DEPARTURE</PROPERTY>
+      <PROPERTY name="magicTBMDesc" type="String">INTERNET BOOKING TKT BY MAIL</PROPERTY>
+      <PROPERTY name="defaultCardType" type="String">VI</PROPERTY>
+      <PROPERTY name="krisflyerFFP" type="String">QTV</PROPERTY>
+      <PROPERTY name="otherAllianceFFP" type="String">QTV</PROPERTY>
+      <PROPERTY name="krisflyerRedemption" type="String">QTR,FQTS</PROPERTY>
+      <PROPERTY name="priceDispalyFormat" type="String">###,###,###,###,###,###,##0.00</PROPERTY>
+      <PROPERTY name="CCIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="LCCIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="TaxIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="EuroIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="PassIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="RateIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="NamesIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="CountriesIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="SORIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="AgenIntervalMin" type="int">-1</PROPERTY>
+      <PROPERTY name="VisaKr" type="String">ICN</PROPERTY>
+      <PROPERTY name="eTicket" type="String">WE APPRECIATE YOUR PATRONAGE</PROPERTY>
+    </GROUP>
+    <!--- Config parameters for datalex -->
+    <GROUP name="datalex">
+      <PROPERTY name="travelService" type="String">saa3uat_air_svc</PROPERTY>
+      <PROPERTY name="pnrService" type="String">saa3uat_pnr_svc</PROPERTY>
+      <PROPERTY name="codeShareFlights" type="String">type=normal:flights=5:codeshare=sq</PROPERTY>
+      <PROPERTY name="freqFlyerService" type="String">saa3uat_freqflyer_svc</PROPERTY>
+   <PROPERTY name="agentTravelService" type="String">saa3uat_air_svc</PROPERTY>
+      <PROPERTY name="agentPnrService" type="String">saa3uat_pnr_svc</PROPERTY>
+      <PROPERTY name="agentFreqFlyerService" type="String">saa3uat_freqflyer_svc</PROPERTY>
+
+
+    </GROUP>
+    <GROUP name="passthru">
+      <PROPERTY name="resultCount" type="String">5</PROPERTY>
+      <PROPERTY name="searchRange" type="String">3</PROPERTY>
+      <PROPERTY name="codeShare" type="String">sq</PROPERTY>
+      <PROPERTY name="promotional" type="String">promotional</PROPERTY>
+      <PROPERTY name="validFlight" type="String"/>
+    </GROUP>
+    <GROUP name="CardType">
+      <PROPERTY name="VI" type="String">VISA</PROPERTY>
+      <PROPERTY name="AX" type="String">AMEX</PROPERTY>
+      <PROPERTY name="CA" type="String">MAST</PROPERTY>
+    </GROUP>
+    <GROUP name="CreditCard">
+      <PROPERTY name="Testing" type="boolean">true</PROPERTY>
+      <PROPERTY name="TestCardNumber" type="String">4111111111111111</PROPERTY>
+      <PROPERTY name="TestCardType" type="String">VISA</PROPERTY>
+    </GROUP>
+    <GROUP name="TravelRequest">
+      <PROPERTY name="DestinationCity" type="String">Destination City </PROPERTY>
+      <PROPERTY name="DepartureCity" type="String">Departure City   </PROPERTY>
+    </GROUP>
+    <GROUP name="flightstatus">
+      <PROPERTY name="SQ" type="String">SQ</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="ctnt">
+    <GROUP name="Environment"/>
+    <GROUP name="Technical"/>
+    <GROUP name="BusinessEnvironment"/>
+  </GROUP>
+  <GROUP name="kpi">
+    <GROUP name="Environment"/>
+    <GROUP name="Technical"/>
+    <GROUP name="BusinessEnvironment"/>
+  </GROUP>
+  <GROUP name="srvc">
+    <GROUP name="Environment">
+      <PROPERTY name="contextFactory" type="String">weblogic.jndi.WLInitialContextFactory</PROPERTY>
+      <PROPERTY name="IChkInEJBServerURL" type="String">t3://localhost:7531</PROPERTY>
+      <PROPERTY name="IChkInEJBServerUserName" type="String">sqdirect</PROPERTY>
+      <PROPERTY name="IChkInEJBServerPassword" type="String">Change1t</PROPERTY>
+      <PROPERTY name="IChkInCusDetEJBJNDIName" type="String">com.singaporeair.mysia.srvc.IChkInCustomerDetailsHome</PROPERTY>
+      <PROPERTY name="IChkInTravelServiceEJBJNDIName" type="String">com.singaporeair.mysia.srvc.IChkInTravelServiceHome</PROPERTY>
+      <PROPERTY name="dataSource" type="String">saaDataSource</PROPERTY>
+    </GROUP>
+    <GROUP name="datalex">
+      <PROPERTY name="checkInService" type="String">saa3uat_checkin_svc</PROPERTY>
+    </GROUP>
+    <GROUP name="InternetCheckin">
+      <GROUP name="DTDpath">
+        <PROPERTY name="requestDTDpath" type="String">/prod/applc/has/saar3dev/DTD/SIAInternetCheckin.dtd</PROPERTY>
+        <PROPERTY name="responseDTDpath" type="String">/prod/applc/has/saar3dev/DTD/SIAInternetCheckin.dtd</PROPERTY>
+        <PROPERTY name="DTDStartPos" type="int">39</PROPERTY>
+        <PROPERTY name="DTDEndPos" type="int">151</PROPERTY>
+        <PROPERTY name="MaxNoOfPassengers" type="int">9</PROPERTY>
+        <PROPERTY name="MaxNoOfSegments" type="int">5</PROPERTY>
+        <PROPERTY name="DepartureTimeCheckEnabled" type="boolean">true</PROPERTY>
+        <PROPERTY name="MailStringGeneratorJSP" type="String">IChkInGenerateMailString.jsp</PROPERTY>
+        <PROPERTY name="CancelCheckInMailStringGeneratorJSP" type="String">IChkInGenerateCancelMailString.jsp</PROPERTY>
+  <PROPERTY name="MealDisplayJSP" type="String">IChkInMealDisplay.jsp</PROPERTY>
+        <PROPERTY name="FromAddress" type="String">sia_internetcheckin@singaporeair.com.sg</PROPERTY>
+  <PROPERTY name="MFRCountries" type="String">GBN-GB,GBO-GB,GBD-GB,GBP-GB,GBS-GB</PROPERTY>
+      </GROUP>
+    </GROUP>
+    <GROUP name="SellingModeMapping">
+    <GROUP name="J">
+        <PROPERTY name="J" type="String">P</PROPERTY>
+      </GROUP>
+      <GROUP name="JY">
+        <PROPERTY name="J" type="String">P</PROPERTY>
+        <PROPERTY name="Y" type="String">Y</PROPERTY>
+      </GROUP>
+      <GROUP name="JSY">
+        <PROPERTY name="J" type="String">P</PROPERTY>
+        <PROPERTY name="S" type="String">J</PROPERTY>
+        <PROPERTY name="Y" type="String">Y</PROPERTY>
+      </GROUP>
+      <GROUP name="PCY">
+        <PROPERTY name="P" type="String">P</PROPERTY>
+        <PROPERTY name="C" type="String">J</PROPERTY>
+        <PROPERTY name="Y" type="String">Y</PROPERTY>
+      </GROUP>
+    </GROUP>
+    <GROUP name="SeatStatus">
+      <PROPERTY name="OCCUPIED" type="String">PROTECTED</PROPERTY>
+      <PROPERTY name="FREE" type="String">FREE</PROPERTY>
+      <PROPERTY name="PROTECTED" type="String">PROTECTED</PROPERTY>
+      <PROPERTY name="UNUSABLE" type="String">PROTECTED</PROPERTY>
+      <PROPERTY name="UNAVAILABLE" type="String">PROTECTED</PROPERTY>
+    </GROUP>
+    <GROUP name="FlightStatus">
+      <GROUP name="FLIGHT_NOT_CREATED">
+        <PROPERTY name="value" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">true</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">GREATERTHAN</PROPERTY>
+      </GROUP>
+      <GROUP name="FE">
+        <PROPERTY name="value" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">false</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">LESSTHAN</PROPERTY>
+      </GROUP>
+      <GROUP name="FO">
+        <PROPERTY name="value" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">false</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">LESSTHAN</PROPERTY>
+      </GROUP>
+      <GROUP name="FH">
+        <PROPERTY name="value" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">false</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">LESSTHAN</PROPERTY>
+      </GROUP>
+      <GROUP name="FG">
+        <PROPERTY name="value" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">false</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">LESSTHAN</PROPERTY>
+      </GROUP>
+      <GROUP name="FC">
+        <PROPERTY name="value" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">false</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">LESSTHAN</PROPERTY>
+      </GROUP>
+      <GROUP name="FF">
+        <PROPERTY name="value" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">false</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">LESSTHAN</PROPERTY>
+      </GROUP>
+      <GROUP name="FD">
+        <PROPERTY name="value" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">false</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">LESSTHAN</PROPERTY>
+      </GROUP>
+      <GROUP name="PURGED">
+        <PROPERTY name="value" type="String">NOTCHECKEDIN</PROPERTY>
+        <PROPERTY name="altenateValue" type="String">CHECKEDIN</PROPERTY>
+        <PROPERTY name="DepDatePostRequired" type="String">false</PROPERTY>
+        <PROPERTY name="DateCheck" type="String">CurrentDate</PROPERTY>
+        <PROPERTY name="Operator" type="String">LESSTHAN</PROPERTY>
+      </GROUP>
+    </GROUP>
+    <GROUP name="Technical">
+      <PROPERTY name="inktomi" type="String">http://lapsxd29:8765/saasearch</PROPERTY>
+      <PROPERTY name="ultraseek" type="String">http://saa-ultraseek:8765/saasearch/</PROPERTY>
+      <PROPERTY name="FSBaseYear" type="String">1980</PROPERTY>
+      <PROPERTY name="FSEJBServer" type="String">t3://localhost:7531</PROPERTY>
+      <PROPERTY name="Protocol" type="String">file:///</PROPERTY>
+      <PROPERTY name="LinkPattern" type="String">a href</PROPERTY>
+      <PROPERTY name="Collection" type="String">saa</PROPERTY>
+      <PROPERTY name="3rdPartyContentDirName" type="String">3rdPartyContent</PROPERTY>
+    </GROUP>
+    <GROUP name="BusinessEnvironment">
+      <PROPERTY name="FlightOpenTime" type="int">72</PROPERTY>
+      <PROPERTY name="DeptDateLimitMax" type="int">3</PROPERTY>
+      <PROPERTY name="DeptDateLimitMin" type="int">-1</PROPERTY>
+      <PROPERTY name="MaxNoOfSegmentsDispalyed" type="int">9</PROPERTY>
+    </GROUP>
+  </GROUP>
+
+  <!-- MKP 91226 Linking SQ Booking Engine to MI Sambath -->
+  <GROUP name="SQMIDEEPLINK">
+    <GROUP name="Environment"/>
+    <GROUP name="Technical">
+      <PROPERTY name="USERID" type="String">StarAlliance</PROPERTY>
+      <PROPERTY name="PASSWORD" type="String">k25175dg</PROPERTY>
+      <PROPERTY name="SERVERIP" type="String">http://eapsxd04:7601/mitest</PROPERTY>
+    </GROUP>
+    <GROUP name="BusinessEnvironment"/>
+  </GROUP>
+  <!-- MKP 91226 Linking SQ Booking Engine to MI Sambath -->
+
+  <GROUP name="wlps">
+    <GROUP name="Environment"/>
+    <GROUP name="Technical">
+      <PROPERTY name="EventFlowConfig" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/eventflow.properties</PROPERTY>
+      <PROPERTY name="StateFlowConfig" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/stateflow.properties</PROPERTY>
+      <PROPERTY name="ControlFlowConfig" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/controlflow.properties</PROPERTY>
+      <PROPERTY name="QueryConfig" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/queryvalue.properties</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="BkgExceptionCountryList">
+    <PROPERTY name="CountryCodes" type="String">US,HK,CA,AU</PROPERTY>
+  </GROUP>
+  <GROUP name="BkgMealCodeList">
+    <PROPERTY name="MealCodes" type="String">AVML,BLML,DBML,FPML,GFML,HFML,HNML,KSML,LCML,LFML,LPML,LSML,MOML,NLML,ORML,PRML,RVML,SFML,VGMLW,VGMLJ,VLML,AVMLI</PROPERTY>
+  </GROUP>
+  <GROUP name="BkgAirlineCodeList">
+    <PROPERTY name="AirlineCodes" type="String">AC,NZ,NH,AN,OS,BD,DL,NG,LH,MX,SK,SQ,TG,VO,UA,RG,VS</PROPERTY>
+  </GROUP>
+  <GROUP name="NonKFEmail">
+    <GROUP name="BusinessEnvironment">
+      <PROPERTY name="NonkrisflyerEmailId" type="String">sqeservices@singaporeair.com.sg</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="Weather">
+    <PROPERTY name="xmlFilePath" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/config/</PROPERTY>
+    <PROPERTY name="xmlFile" type="String">Forecast-SIA.xml</PROPERTY>
+    <PROPERTY name="LoggerFilePath" type="String">/prod/applc/wls/sqdirect/logs/application/wfloader/</PROPERTY>
+  </GROUP>
+  <GROUP name="MoviePremiere">
+    <GROUP name="EventCode">
+      <GROUP name="SG">
+        <PROPERTY name="Regular" type="String">REGSIN</PROPERTY>
+        <PROPERTY name="Gold" type="String">GOLDSIN</PROPERTY>
+      </GROUP>
+      <GROUP name="KL">
+        <PROPERTY name="Regular" type="String">REGKUL</PROPERTY>
+      </GROUP>
+    </GROUP>
+  </GROUP>
+  <GROUP name="PPS">
+    <GROUP name="Events">
+      <PROPERTY name="EventsPopUpURL" type="String">http://202.40.225.2</PROPERTY>
+    </GROUP>
+    <GROUP name="Invitation">
+      <PROPERTY name="InvitePopUpURL" type="String">http://202.40.225.2</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="HomepageSG">
+    <GROUP name="FareSearch">
+      <PROPERTY name="FareSearchPopUpURL" type="String">http://202.40.225.6/</PROPERTY>
+      <PROPERTY name="FareSearchPopUpPath" type="String">saa/afs/afs_home.asp</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="Microsite">
+    <PROPERTY name="XMURL" type="String">http://saa2.xm-worldwide.com</PROPERTY>
+    <PROPERTY name="XMPath" type="String">/saa/contest/intro.asp</PROPERTY>
+  </GROUP>
+  <!-- START OF MobileServices -->
+  <GROUP name="MobileServices">
+    <GROUP name="Alerts">
+      <GROUP name="Senders">
+        <PROPERTY name="SMS" type="String">com.singaporeair.milkshake.alerts.UnimobileAlertSender</PROPERTY>
+        <PROPERTY name="PAGER" type="String">com.singaporeair.milkshake.alerts.UnimobileAlertSender</PROPERTY>
+        <PROPERTY name="IMODE" type="String">com.singaporeair.milkshake.alerts.EmailAlertSender</PROPERTY>
+        <PROPERTY name="EMAIL" type="String">com.singaporeair.milkshake.alerts.EmailAlertSender</PROPERTY>
+      </GROUP>
+      <GROUP name="Limits">
+        <PROPERTY name="Basic" type="int">15</PROPERTY>
+        <PROPERTY name="Advanced" type="int">30</PROPERTY>
+      </GROUP>
+    </GROUP>
+    <GROUP name="WebServices">
+      <PROPERTY name="Url" type="String">http://ldmsxp24:8901/WebServices/</PROPERTY>
+    </GROUP>
+    <GROUP name="unimobile">
+            <GROUP name="connection">
+                <PROPERTY name="url" type="String">/sia_sq_fli07082/sia_sq_fli07082.sms</PROPERTY>
+                <PROPERTY name="https" type="String">https://partnerweb.unimobile.com/xmlrpc/umrpc/umrpc.asp</PROPERTY>
+                <PROPERTY name="id" type="String">3023</PROPERTY>
+                <PROPERTY name="account" type="String">sia_sq_fli07082</PROPERTY>
+                <PROPERTY name="password" type="String">mQrqGMTM</PROPERTY>
+        <PROPERTY name="host" type="String">messaging.sybase365.com</PROPERTY>
+            </GROUP>
+            <GROUP name="config">
+                <PROPERTY name="from" type="String">SQFltInfo:</PROPERTY>
+        <PROPERTY name="fromCancelNRU" type="String">SIA Cancel PIN</PROPERTY>
+                <PROPERTY name="orginaddress" type="String">SingaporeAir</PROPERTY>
+                <PROPERTY name="fromAddress" type="String"/>
+                <PROPERTY name="partnerTag" type="String"/>
+                <PROPERTY name="priority" type="String">5</PROPERTY>
+                <PROPERTY name="deliverAfter" type="String"/>
+                <PROPERTY name="dropDead" type="String">24</PROPERTY>
+                <PROPERTY name="selfDestruct" type="String"/>
+                <PROPERTY name="useDeviceTimeZone" type="String">false</PROPERTY>
+                <PROPERTY name="returnDeliveryStatus" type="String">false</PROPERTY>
+                <PROPERTY name="deviceConfirmation" type="String">false</PROPERTY>
+                <PROPERTY name="proxyEnable" type="String">true</PROPERTY>
+                <PROPERTY name="proxyHost" type="String">proxy2.sq.com.sg</PROPERTY>
+                <PROPERTY name="proxyPort" type="String">80</PROPERTY>
+                <PROPERTY name="proxyUser" type="String">sqw2kdom\unimobile_proxy</PROPERTY>
+                <PROPERTY name="proxyPassword" type="String">changeit</PROPERTY>
+        <PROPERTY name="hostPort" type="String">443</PROPERTY>
+        <PROPERTY name="connTimeOut" type="String">5000</PROPERTY>
+            </GROUP>
+     </GROUP>
+  </GROUP>
+  <!-- END OF MobileServices-->
+  <!-- START OF Release 2 -->
+  <GROUP name="OnlineRedemptionBooking">
+    <GROUP name="Waitlist">
+      <PROPERTY name="Url" type="String">http://eapsxd03:7531/</PROPERTY>
+      <PROPERTY name="Path" type="String">saa/Booking/retrievePNRfromEmail.jspx?isWaitlisted=true&amp;isRedemption=true&amp;pnrCode=</PROPERTY>
+      <PROPERTY name="Path2" type="String">&amp;kfnumber=</PROPERTY>
+    <PROPERTY name="Path3" type="String">&amp;method=executeAction</PROPERTY>
+      <PROPERTY name="EmailSender" type="String">onlineredemption@singaporeair.com.sg</PROPERTY>
+      <PROPERTY name="Subject" type="String">Your Online Redemption Booking</PROPERTY>
+    </GROUP>
+    <GROUP name="Confirm">
+      <PROPERTY name="Url" type="String">http://eapsxd03:7531/</PROPERTY>
+      <PROPERTY name="Path" type="String">saa/Booking/retrievePNRfromEmail.jspx?pnrCode=</PROPERTY>
+      <PROPERTY name="Path2" type="String">&amp;kfnumber=</PROPERTY>
+      <PROPERTY name="Path3" type="String">&amp;method=executeAction</PROPERTY>
+      <PROPERTY name="EmailSender" type="String">onlineredemption@singaporeair.com.sg</PROPERTY>
+      <PROPERTY name="Subject" type="String">Your Online Redemption Booking</PROPERTY>
+    </GROUP>
+    <GROUP name="Encryption">
+      <PROPERTY name="Key" type="String">aE6Te7g23kbv3wagYY3KjmgQgtut3GtB05MxaXytj3p24Zi</PROPERTY>
+      <PROPERTY name="pinKey" type="String">nBiaRrbAthIgiNnoPtgIniNodKewEerYat2ah3w</PROPERTY>
+    </GROUP>
+    <GROUP name="Promotion">
+      <PROPERTY name="PromoCode" type="String"></PROPERTY>
+    </GROUP>
+  <GROUP name="OSI">
+      <PROPERTY name="SQID" type="String">SQID</PROPERTY>
+   <PROPERTY name="ORBTPTYEMLSTR" type="String">Email address belongs to the KF Account holder and not the nominee or companion who is traveling</PROPERTY>
+    </GROUP>
+  <GROUP name="UMHandling">
+      <PROPERTY name="DECLINESTR" type="String">UM Assist declined. Dispensation form required</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="ComplexInterLineBooking">
+    <!-- MKP91195 - Starts -->
+    <GROUP name="Confirm">
+          <PROPERTY name="Url" type="String">http://eapsxd03:7531/</PROPERTY>
+          <PROPERTY name="Path" type="String">saa/Booking/nruloginPNR.jspx?bookingRef=</PROPERTY>
+          <PROPERTY name="Path2" type="String">&amp;familyName=</PROPERTY>
+    <PROPERTY name="Path3" type="String">&amp;givenName=</PROPERTY>
+      <PROPERTY name="Path4" type="String">&amp;isELink=</PROPERTY>      
+    </GROUP>
+    <GROUP name="ConfirmKf">
+          <PROPERTY name="Url" type="String">http://eapsxd03:7531/</PROPERTY>
+          <PROPERTY name="Path" type="String">saa/Booking/retrievePNRfromEmail.jspx?pnrCode=</PROPERTY>
+          <PROPERTY name="Path2" type="String">&amp;kfnumber=</PROPERTY>
+      <PROPERTY name="Path3" type="String">&amp;method=executeAction</PROPERTY>   
+     </GROUP>
+  <!-- MKP91195 - Ends -->
+    <GROUP name="EncodingKey">
+      <PROPERTY name="Key" type="String">CUMBERLAND</PROPERTY>
+      <PROPERTY name="Prefix" type="String">**/QS/</PROPERTY>
+    </GROUP>
+    <GROUP name="TruncationOfZeroes">
+      <PROPERTY name="JPY" type="String">2</PROPERTY>
+      <PROPERTY name="THB" type="String">2</PROPERTY>
+      <PROPERTY name="LKR" type="String">2</PROPERTY>
+      <PROPERTY name="TWD" type="String">2</PROPERTY>
+      <PROPERTY name="LBP" type="String">2</PROPERTY>
+      <PROPERTY name="LUF" type="String">2</PROPERTY>
+      <PROPERTY name="KRW" type="String">3</PROPERTY>
+      <PROPERTY name="TRL" type="String">3</PROPERTY>
+    </GROUP>
+    <GROUP name="OSI">
+      <PROPERTY name="SQID" type="String">SQID</PROPERTY>
+    <PROPERTY name="TPTYEMLSTR" type="String">Email address belongs to booker and not traveller due to 3rd party booking</PROPERTY>
+    <PROPERTY name="NRUTPTYEMLSTR" type="String">NRUTHDPARTY</PROPERTY>
+    </GROUP>
+    <GROUP name="UMHandling">
+      <PROPERTY name="DECLINESTR" type="String">UM Assist declined. Dispensation form required</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="ETicket">
+    <GROUP name="AlterETicket">
+      <PROPERTY name="VisaKr" type="String">ICN</PROPERTY>
+    </GROUP>
+
+  <GROUP name="ETicketReceiptNextPage">
+      <PROPERTY name="nextPage" type="String">PLEASE REFER TO THE NEXT PAGE FOR IMPORTANT NOTICES</PROPERTY>
+    </GROUP>  
+
+  <GROUP name="ETicketImportantNotices">
+      <PROPERTY name="notices" type="String">IMPORTANT NOTICES</PROPERTY>
+    </GROUP>
+  
+
+    <GROUP name="AlterETicketMessages">
+      <PROPERTY name="ICN" type="String">IMPORTANT NOTICE &lt;BR&gt;SINGAPORE AIRLINES WILL CHARGE ONLY WHAT HAS BEEN QUOTED ABOVE. &lt;BR&gt;IF YOU PAY WITH VISA/MASTERCARD YOU WILL ALSO INCUR CURRENCY CONVERSION &lt;BR&gt;CHARGES BETWEEN VISA/MASTERCARD AND YOUR LOCAL KOREAN BANK. &lt;BR&gt;THIS WILL NOT APPLY TO AMERICAN EXPRESS CARDHOLDERS.</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <GROUP name="admin">
+    <GROUP name="mealrequest">
+      <PROPERTY name="switch" type="boolean">true</PROPERTY>
+    </GROUP>
+  <GROUP name="Encryption">
+    <PROPERTY name="Key" type="String">eCt4rH7HIr0oOqigyeSO4Gte5Poe3eP5hR</PROPERTY>
+  </GROUP>
+  </GROUP>
+  <GROUP name="System">
+    <GROUP name="Shortsell">
+      <PROPERTY name="Enabled" type="String">false</PROPERTY>
+    </GROUP>
+    <GROUP name="BookingCacheManager">
+      <PROPERTY name="RefreshTimeInMinutes" type="String">1440</PROPERTY>
+    </GROUP>
+    <GROUP name="PromotionFareManager">
+      <PROPERTY name="RefreshTimeInMinutes" type="String">1440</PROPERTY>
+    </GROUP>
+    <GROUP name="CreatePNRDatabaseFailEmail">
+      <PROPERTY name="adminDBEmail" type="String">mkt_sqdtest@sqdev.com.sg</PROPERTY>
+      <PROPERTY name="adminDBSubject" type="String">PNR Create in Database fail.</PROPERTY>
+      <PROPERTY name="adminDBFromAddress" type="String">SAA_AMS@singaporeair.com.sg</PROPERTY>
+    </GROUP>
+   <GROUP name="ManualInterventionEmail">
+      <PROPERTY name="toAddress1" type="String">AS_SAACoverage@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddress2" type="String"></PROPERTY>
+    <PROPERTY name="toAddresscc" type="String"></PROPERTY>
+      <PROPERTY name="ManualInterventionSubject" type="String">Booking Error: Manual Intervention Requested</PROPERTY>
+    <PROPERTY name="SSHManualInterventionSubject" type="String">SSH Booking Error: Manual Intervention Requested</PROPERTY>
+   <PROPERTY name="EMEXManualInterventionSubject" type="String">Seat Selection  Error: Manual Intervention Requested</PROPERTY>
+    <PROPERTY name="NoShowManualInterventionSubject" type="String">No Show Payment Error: Manual Intervention Requested</PROPERTY>
+      <PROPERTY name="ManualInterventionFromAddress" type="String">booking@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="Note" type="String">Please note: SAA AMS to proceed to investigate and contact Payment Gateway if required. SAA AMS to contact finance users to do manual capture using eNett admin module if required.</PROPERTY>
+    </GROUP>
+   <GROUP name="ManualCaptureEmail">
+      <PROPERTY name="toAddressMC" type="String">AS_SAACoverage@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddressMCcc" type="String"></PROPERTY>
+    <PROPERTY name="ManualCaptureSubject" type="String">Capture Failure: Manual Capture Requested</PROPERTY>
+    <PROPERTY name="SSHManualCaptureSubject" type="String">SSH Capture Failure: Manual Capture Requested</PROPERTY>
+<!-- Added for MKP91357 - 224874 - START -->    
+    <PROPERTY name="KFSManualCaptureSubject" type="String">Capture Failure: KFS - flowName - Manual Capture Requested</PROPERTY>
+<!-- Added for MKP91357 - 224874 - END -->
+    <PROPERTY name="NoShowManualCaptureSubject" type="String">No Show Capture Failure: Manual Capture Requested</PROPERTY>
+   <!-- Added for MKP91357 - Chode - START -->    
+    <PROPERTY name="PSSManualCaptureSubject" type="String">Capture Failure: PSS - Manual Capture Requested</PROPERTY>
+  <!-- Added for MKP91357 - Chode - END -->
+
+      <PROPERTY name="ManualCaptureFromAddress" type="String">booking@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="Note" type="String">Please note: SAA AMS to proceed to investigate and contact Payment Gateway eNett if required. Finance users to do manual capture using eNett admin module.</PROPERTY>
+    </GROUP>
+  <GROUP name="TrackerBookingEmail">
+      <PROPERTY name="Addressbcc" type="String">SrinivasaRao_Arangi@singaporeair.com.sg</PROPERTY>
+    </GROUP>
+   <GROUP name="MarmsFailEmail">
+      <PROPERTY name="MarmsAdminEmail1" type="String">SrinivasaRao_Arangi@singaporeair.com.sg</PROPERTY>
+      <PROPERTY name="MarmsAdminEmail2" type="String">choonsze_ng@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="MarmsAdminEmailcc" type="String"></PROPERTY>
+      <PROPERTY name="MarmsSubject" type="String">MARMS Update failed..</PROPERTY>
+      <PROPERTY name="MarmsFromAddress" type="String">booking@singaporeair.com.sg</PROPERTY>
+    </GROUP>
+  
+   <GROUP name="ManualMarmsUpdate">
+      <PROPERTY name="toAddress1" type="String">andrew.ang@teledirect.com.sg</PROPERTY>
+    <PROPERTY name="toAddresscc" type="String">MARMS_Support@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="ManualCaptureSubject" type="String">Capture Failure: Manual Capture Requested</PROPERTY>
+    <PROPERTY name="ManualMarmsUpdateSubject" type="String">Marms Failure: Manual MARMS Requested Requested</PROPERTY>
+   <PROPERTY name="ManualCaptureFromAddress" type="String">kfservices@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="Note" type="String">Please note: SAA AMS to proceed to investigate and contact Payment Gateway eNett if required. Finance users to do manual capture using eNett admin module.</PROPERTY>
+    </GROUP>
+
+    <GROUP name="AmadeusResponseMismatch">
+      <PROPERTY name="sendEmail" type="boolean">false</PROPERTY>
+      <PROPERTY name="adminEmail" type="String">louis_baliotis@singaporeair.com.sg</PROPERTY>
+    </GROUP>
+    <GROUP name="ORBValidation">
+      <PROPERTY name="duration" type="String">6</PROPERTY>
+      <PROPERTY name="duration_PAYR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_PACR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_PAFR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_PWYR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_PWCR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_PWFR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_PAYU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PACU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PAFU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PWYU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PWCU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PWFU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PAFF" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PACF" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PAYF" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PWFF" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PWCF" type="String">12</PROPERTY>
+      <PROPERTY name="duration_PWYF" type="String">12</PROPERTY>
+    <PROPERTY name="duration_MAMR" type="String">12</PROPERTY>
+      <PROPERTY name="duration_MWMR" type="String">12</PROPERTY>
+    </GROUP>
+  <GROUP name="CORBValidation">
+    <PROPERTY name="duration" type="String">6</PROPERTY>
+      <PROPERTY name="duration_CAYR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_CACR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_CAFR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_CWYR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_CWCR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_CWFR" type="String">6</PROPERTY>
+      <PROPERTY name="duration_CAYU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_CACU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_CAFU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_CWYU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_CWCU" type="String">12</PROPERTY>
+      <PROPERTY name="duration_CWFU" type="String">12</PROPERTY>
+    </GROUP>
+  <GROUP name="ThirdPartyELOIAlertEmail">
+    <PROPERTY name="toAddress1" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddress2" type="String"></PROPERTY>
+    <PROPERTY name="toAddresscc" type="String"></PROPERTY>
+    <PROPERTY name="ManualCaptureSubject" type="String">SAA 3rd Party (Potential Fraud) Summary for </PROPERTY>
+    <PROPERTY name="ManualCaptureFromAddress" type="String">SAA_WEBAPP@singaporeair.com.sg</PROPERTY>
+  </GROUP>
+  <GROUP name="LateFeeDeductionFailureAlert">
+      <PROPERTY name="toAddress" type="String">@latefeedeductionfailurealert.toadd@</PROPERTY>
+    <PROPERTY name="toAddresscc" type="String">@latefeedeductionfailurealert.toaddcc@</PROPERTY>
+      <PROPERTY name="fromAddress" type="String">booking@singaporeair.com.sg</PROPERTY>
+    </GROUP>
+  </GROUP>
+  <!-- END OF Release 2 -->
+  <!-- START OF AMS -->
+    <GROUP name="Survey">
+        <GROUP name="OrbWaitlist">
+          <PROPERTY name="JsName" type="String">SingairORBwaitlist</PROPERTY>
+        </GROUP>
+        <GROUP name="OrbNormal">
+          <PROPERTY name="JsName" type="String">SingairORB</PROPERTY>
+        </GROUP>
+        <GROUP name="CIB">
+          <PROPERTY name="JsName" type="String">SingaporeAirlines</PROPERTY>
+        </GROUP>
+    </GROUP>
+    <GROUP name="DoubleClick">
+      <PROPERTY name="include" type="boolean">false</PROPERTY>
+    </GROUP>
+    <GROUP name="Affiliate">
+      <PROPERTY name="include" type="boolean">true</PROPERTY>
+      <PROPERTY name="merchantID_US" type="String">607</PROPERTY>
+    <PROPERTY name="merchantID_FR" type="String">608</PROPERTY>
+    <PROPERTY name="merchantID_DE" type="String">609</PROPERTY>
+    <PROPERTY name="merchantID_NL" type="String">610</PROPERTY>
+    <PROPERTY name="merchantID_IT" type="String">710</PROPERTY>
+      <PROPERTY name="merchantID_UK" type="String">123</PROPERTY>
+    <PROPERTY name="merchantID_OT" type="String">123</PROPERTY>
+      <PROPERTY name="payoutCodes" type="String"></PROPERTY>
+      <PROPERTY name="offlineCode" type="String"></PROPERTY>
+    </GROUP>
+  <GROUP name="TradeTracker">
+      <PROPERTY name="campaignID_NL" type="String">1743</PROPERTY>
+      <PROPERTY name="productID_NL" type="String">2313</PROPERTY>
+    <PROPERTY name="campaignID_BE" type="String">2105</PROPERTY>   
+    <PROPERTY name="productID_BE" type="String">2849</PROPERTY>
+    </GROUP>
+    <GROUP name="Profero">
+      <PROPERTY name="include" type="boolean">false</PROPERTY>
+    </GROUP>
+    <GROUP name="TimeoutSessionPopup">
+      <PROPERTY name="include" type="boolean">true</PROPERTY>
+    </GROUP>
+    <GROUP name="LocalCookiePopup">
+      <PROPERTY name="include" type="boolean">false</PROPERTY>
+    </GROUP>
+    <GROUP name="NewGate">
+      <PROPERTY name="include" type="boolean">false</PROPERTY>
+    </GROUP>
+    <GROUP name="Speedera">
+      <PROPERTY name="url_prefix" type="String">img.singaporeair.com</PROPERTY>
+    </GROUP>
+    <!-- SIR# 04437, STARTM :: Orphaned Access Prevention URL -->
+  <GROUP name="OrphanedAccessPreventionURL">
+      <PROPERTY name="URLString" type="String">/saa/app/saa</PROPERTY>
+    </GROUP>
+    <!-- SIR# 04437, ENDM :: Orphaned Access Prevention URL -->
+    <!-- SIR# 04466, STARTM :: SIA Digital Branding -->
+  <GROUP name="SIADigitalBranding">
+      <PROPERTY name="include" type="boolean">false</PROPERTY>
+      <PROPERTY name="tag" type="String">https://eu.xmts.net/COOKIE/49282</PROPERTY>
+    </GROUP>
+    <!-- SIR# 04466, ENDM :: SIA Digital Branding -->
+  <!-- CR # MKP90232, STARTM :: SIA ITALY Digital Branding -->
+  <GROUP name="SIAITALYDigitalBranding">
+      <PROPERTY name="include" type="boolean">true</PROPERTY>
+    <PROPERTY name="merchantID" type="String">124</PROPERTY>
+      <PROPERTY name="tag" type="String">https://www.performix.it/servlet/Affiliation</PROPERTY>
+     </GROUP>
+    <!-- CR # MKP90232, ENDM :: SIA Digital Branding -->
+    <!-- SIR# 4641, STARTM :: Hutchison's Link -->
+  <GROUP name="HutchLink">
+      <PROPERTY name="include" type="boolean">false</PROPERTY>
+      <PROPERTY name="Url" type="String">https://www.three.com.hk/mileages/jsp/english/Register.jsp</PROPERTY>
+    </GROUP>
+    <!-- SIR# 4641, ENDM :: Hutchison's Link -->
+    <!-- SAAFacadeBean - SAA MARMS Decoupling Start -->
+    <GROUP name="facade">
+        <GROUP name="Technical">
+          <PROPERTY name="color" type="float">0.345</PROPERTY>
+          <PROPERTY name="IP" type="String">t3://localhost:7531</PROPERTY>
+          <PROPERTY name="UserId" type="String"></PROPERTY>
+          <PROPERTY name="Password" type="String"></PROPERTY>
+          <PROPERTY name="Timeout" type="String">5000</PROPERTY>
+          <PROPERTY name="ActivateTimeout" type="String">true</PROPERTY>
+      </GROUP>
+    </GROUP>
+    <!-- SAAFacadeBean - SAA MARMS Decoupling End -->
+
+  <!-- Webspace -->
+    <GROUP name="webspace">
+          <PROPERTY name="include" type="boolean">false</PROPERTY>
+          <PROPERTY name="bookingsurvey" type="String">http://www.survey.singaporeair.com</PROPERTY>
+          <PROPERTY name="icesurvey" type="String">http://www.survey.singaporeair.com</PROPERTY>
+      <PROPERTY name="homepagesurvey" type="String">http://www.survey.singaporeair.com</PROPERTY>
+    </GROUP>
+    <!-- Webspace -->
+
+  <!-- WebSpace New -->
+  <GROUP name="webspacenew">
+          <PROPERTY name="include" type="boolean">false</PROPERTY>
+          <PROPERTY name="homepagesurvey" type="String">http://survey.singaporeair.com/surveys/surf4.htm</PROPERTY>
+      <PROPERTY name="validity" type="int">10</PROPERTY>
+      <PROPERTY name="cookiename" type="String">webspace</PROPERTY>
+    </GROUP>
+    <!-- End -->
+
+  <!-- Start MKP90264:Multiple Session Enhancement -->
+    <GROUP name="multiloginsession">
+    <PROPERTY name="include" type="boolean">true</PROPERTY>
+      <PROPERTY name="numberofservers" type="int">1</PROPERTY>
+      <PROPERTY name="port" type="String">7531</PROPERTY>
+      <PROPERTY name="serverIP1" type="String">192.168.134.72:7531</PROPERTY>
+      <PROPERTY name="serverIP2" type="String"></PROPERTY>
+      <PROPERTY name="serverIP3" type="String"></PROPERTY>
+    <PROPERTY name="serverIP4" type="String"></PROPERTY>
+      <PROPERTY name="serverIP5" type="String"></PROPERTY>
+      <PROPERTY name="serverIP6" type="String"></PROPERTY>
+    <PROPERTY name="multiloginthread" type="int">8</PROPERTY>
+    </GROUP>
+    <!-- End MKP90264:Multiple Session Enhancement -->
+
+  <!-- Start First Coffee tag -->
+    <GROUP name="firstCoffee">
+        <PROPERTY name="include" type="boolean">true</PROPERTY>
+        <PROPERTY name="URL" type="String">http://tracker.affistats.com/fcnvol.php</PROPERTY>
+    </GROUP>
+    <!-- End First Coffee tag -->
+
+    <!-- Start TestNet tag -->
+    <GROUP name="TestNet">
+        <PROPERTY name="include" type="boolean">true</PROPERTY>
+        <PROPERTY name="URL" type="String">https://dy.testnet.nl/lead/leadTracker.cfm</PROPERTY>
+    </GROUP>
+    <!-- End TestNet tag -->
+
+    <!-- Start Atlas tag -->
+    <GROUP name="atlas">
+      <PROPERTY name="include" type="boolean">true</PROPERTY>
+        <PROPERTY name="URL" type="String">https://switch.atdmt.com/action/out_sing_book_conf</PROPERTY>
+    </GROUP>
+    <!-- End Atlas tag -->
+
+    <!-- Start Cibleclick tag -->
+    <GROUP name="Cibleclick">
+      <PROPERTY name="include" type="boolean">true</PROPERTY>
+        <PROPERTY name="URL" type="String">http://www.cibleclick.com/cibles/ventes/symp.cfm/vente146116990.gif</PROPERTY>
+    </GROUP>
+    <!-- End Cibleclick tag -->
+
+    <!-- Start Country/Locale Cookie Definition -->
+    <GROUP name="GlobalCookie">
+      <PROPERTY name="countryMaxAge" type="int">31536000</PROPERTY>
+        <PROPERTY name="localeMaxAge" type="int">31536000</PROPERTY>
+        <PROPERTY name="secondaryLocaleMaxAge" type="int">31536000</PROPERTY>
+    <PROPERTY name="zanoxMaxAge" type="int">2592000</PROPERTY>
+
+    <!--MKP91542 - START ZANOX SQ-IT CHANGES -->
+    <PROPERTY name="zanoxFlag" type="boolean">false</PROPERTY>
+    <PROPERTY name="zanoxCtryMaxAge" type="int">2592000</PROPERTY>
+    <PROPERTY name="zanoxLanguageMaxAge" type="int">2592000</PROPERTY>
+    <GROUP name="zanoxConstants">
+        <!-- Constants For Italy -->
+      <PROPERTY name="IT_CID" type="String">xxx</PROPERTY>
+    </GROUP>
+    <!--MKP91542 - END ZANOX SQ-IT CHANGES  -->
+
+    <!--MKP91633 - Start LINK PRICE KR CHANGES  -->
+    
+    <PROPERTY name="linkPriceIdMaxAge" type="int">2592000</PROPERTY>
+    <GROUP name="linkprice">
+        <!-- Constants For Korea -->
+      <PROPERTY name="Merchant_ID" type="String">siakorea</PROPERTY>
+    </GROUP>
+    <!--MKP91633 - END LINK PRICE KR CHANGES  -->
+    
+    
+    
+    <!-- START TRADE DOUBLER CHANGES -->
+    <PROPERTY name="tradeDoublerIdMaxAge" type="int">31536000</PROPERTY>
+    <PROPERTY name="tradeDoublerCtryMaxAge" type="int">31536000</PROPERTY>
+    <GROUP name="TradeDoublerConstants">
+      <!-- Constants For UK -->
+      <PROPERTY name="GB_ProgramId" type="int">1301201</PROPERTY>
+      <PROPERTY name="GB_SecretCode" type="int">6899</PROPERTY>
+      <PROPERTY name="GB_Event" type="int">130891</PROPERTY>
+      <PROPERTY name="GB_CurrencyCode" type="String">GBP</PROPERTY>
+      <!-- Constants For Ireland -->
+      <PROPERTY name="IE_ProgramId" type="int">1301201</PROPERTY>
+      <PROPERTY name="IE_SecretCode" type="int">6899</PROPERTY>
+      <PROPERTY name="IE_Event" type="int">130891</PROPERTY>
+      <PROPERTY name="IE_CurrencyCode" type="int">EUR</PROPERTY>
+      <!-- Constants For Switzerland -->
+      <!-- Constants For Switzerland -->
+       <PROPERTY name="CH_ProgramId" type="int">1297958</PROPERTY> 
+             <PROPERTY name="CH_SecretCode" type="int">2186</PROPERTY> 
+             <PROPERTY name="CH_Event" type="int">129163</PROPERTY> 
+             <PROPERTY name="CH_CurrencyCode" type="int">CHF</PROPERTY> 
+    </GROUP>
+    <!-- END TRADE DOUBLER CHANGES -->
+    <!-- start EUROADS CHANGES -->
+    <PROPERTY name="euroAdsIdMaxAge" type="int">2592000</PROPERTY>
+    <PROPERTY name="euroAdsCtryMaxAge" type="int">2592000</PROPERTY>
+    <PROPERTY name="euroAdslanguageMaxAge" type="int">2592000</PROPERTY>
+    <GROUP name="euroAdsConstants">
+      <!-- Constants For Denmark -->
+      <PROPERTY name="DK_ProgramId" type="int">1253</PROPERTY>
+      <PROPERTY name="DK_SecretCode" type="int">1</PROPERTY>
+      <PROPERTY name="DK_CurrencyCode" type="String">DKK</PROPERTY>
+    </GROUP>
+    <!-- END EUROADS CHANGES -->
+    <!-- start affilinet CHANGES -->
+    <PROPERTY name="affilinetIdMaxAge" type="int">2592000</PROPERTY>
+    <PROPERTY name="affilinetCtryMaxAge" type="int">2592000</PROPERTY>
+    <PROPERTY name="affilinetlanguageMaxAge" type="int">2592000</PROPERTY>
+    <GROUP name="affilinetConstants">
+      <!-- Constants For Denmark -->
+      <PROPERTY name="DE_ProgramId" type="int">6138</PROPERTY>
+      <PROPERTY name="DE_ModusCode" type="String">ppl</PROPERTY>
+      <PROPERTY name="DE_RateNumber" type="int">1</PROPERTY>
+    </GROUP>
+    <!-- END affilinet CHANGES -->
+        <!--MKP91542 - START ADSMARKET CHANGES FOR HONG KONG  -->
+    <PROPERTY name="adsMarketIdMaxAge" type="int">3888000</PROPERTY>
+    <PROPERTY name="adsMarketCtryMaxAge" type="int">3888000</PROPERTY>
+    <PROPERTY name="adsMarketlanguageMaxAge" type="int">3888000</PROPERTY>
+    <GROUP name="adsMarketConstants">
+      <!-- Constants For HongKong -->
+      <PROPERTY name="HK_Script" type="int">1</PROPERTY>
+      <PROPERTY name="HK_ProgramId" type="int">13419</PROPERTY>
+      <PROPERTY name="HK_CampaignId" type="int">62727</PROPERTY>
+      <PROPERTY name="HK_Action" type="int">sale</PROPERTY>
+    </GROUP>
+        <!--MKP91542 - END ADSMARKET CHANGES FOR HONG KONG   -->
+    </GROUP>
+    <!-- End Country/Locale Cookie Definition -->
+
+    <!-- configurable properties for the Amadeus Pricing Engine -->
+    <GROUP name="PricingEngine">
+
+      <!-- PricingManager configurable properties -->
+
+      <PROPERTY name="dateRange" type="int">3</PROPERTY>
+      <PROPERTY name="siteId" type="String">CBCKCBCK</PROPERTY>
+      <PROPERTY name="language" type="String">GB</PROPERTY>
+      <PROPERTY name="dateFormat" type="String">yyyyMMddHHmm</PROPERTY>
+
+      <!-- cabin class to CFF mapping -->
+      <!-- to accommodate GV fares, the cabin class codes listed below can also indicate the number
+           of passengers they apply to by appending a "-n" where "n" is the number of passengers in the
+           flexpricer request, from 1 to 4, where 4 applies to 4 and above passengers for econ class,
+           and 1 to 2 for business class -->
+      <PROPERTY name="cabinClassCodes" type="String">P,J-1,J-2,Y-1,Y-2,Y-3,Y-4</PROPERTY>
+
+      <!-- the property names of the following lists of commercial fare families must match the cabin class code names defined above.
+           there is a maximum of 3 CFF's per flexpricer request. -->
+
+      <!-- these CFFs are the final PRODUCTION configuration -->
+
+      <GROUP name="CommercialCFF">
+        <PROPERTY name="P"   type="String">CFFP1</PROPERTY>
+        <PROPERTY name="J-1" type="String">CFFJ1</PROPERTY>
+        <PROPERTY name="J-2" type="String">CFFJ2</PROPERTY>
+        <PROPERTY name="Y-1" type="String">CFFY1</PROPERTY>
+        <PROPERTY name="Y-2" type="String">CFFY2</PROPERTY>
+        <PROPERTY name="Y-3" type="String">CFFY3</PROPERTY>
+        <PROPERTY name="Y-4" type="String">CFFY4</PROPERTY>
+      </GROUP>
+      <GROUP name="PromoCFF">
+        <PROPERTY name="P"   type="String">PROCFF</PROPERTY>
+        <PROPERTY name="J-1" type="String">PROCFF</PROPERTY>
+        <PROPERTY name="J-2" type="String">PROCFF</PROPERTY>
+        <PROPERTY name="Y-1" type="String">PROCFF</PROPERTY>
+        <PROPERTY name="Y-2" type="String">PROCFF</PROPERTY>
+        <PROPERTY name="Y-3" type="String">PROCFF</PROPERTY>
+        <PROPERTY name="Y-4" type="String">PROCFF</PROPERTY>
+      </GROUP>
+      <GROUP name="OALCFF">
+        <PROPERTY name="P"   type="String">CFFNONP</PROPERTY>
+        <PROPERTY name="J-1" type="String">CFFNONJ</PROPERTY>
+        <PROPERTY name="J-2" type="String">CFFNONJ</PROPERTY>
+        <PROPERTY name="Y-1" type="String">CFFNONY</PROPERTY>
+        <PROPERTY name="Y-2" type="String">CFFNONY</PROPERTY>
+        <PROPERTY name="Y-3" type="String">CFFNONY</PROPERTY>
+        <PROPERTY name="Y-4" type="String">CFFNONY</PROPERTY>
+      </GROUP>
+      <GROUP name="CorporateOALCFF">
+        <PROPERTY name="P"   type="String">CFFNONP</PROPERTY>
+        <PROPERTY name="J-1" type="String">CFFNONJ</PROPERTY>
+        <PROPERTY name="J-2" type="String">CFFNONJ</PROPERTY>
+        <PROPERTY name="Y-1" type="String">CFFNONY</PROPERTY>
+        <PROPERTY name="Y-2" type="String">CFFNONY</PROPERTY>
+        <PROPERTY name="Y-3" type="String">CFFNONY</PROPERTY>
+        <PROPERTY name="Y-4" type="String">CFFNONY</PROPERTY>
+      </GROUP>
+      <GROUP name="CorporateCFF">
+        <PROPERTY name="P"   type="String">CORPCFFP,CFFP1</PROPERTY>
+        <PROPERTY name="J-1" type="String">CORPCFFJ,CFFJ1</PROPERTY>
+        <PROPERTY name="J-2" type="String">CORPCFFJ,CFFJ2</PROPERTY>
+        <PROPERTY name="Y-1" type="String">CORPCFFY,CFFY1</PROPERTY>
+        <PROPERTY name="Y-2" type="String">CORPCFFY,CFFY2</PROPERTY>
+        <PROPERTY name="Y-3" type="String">CORPCFFY,CFFY3</PROPERTY>
+        <PROPERTY name="Y-4" type="String">CORPCFFY,CFFY4</PROPERTY>
+      </GROUP>
+    <GROUP name="CodeMarketingCFF">
+        <PROPERTY name="P"   type="String">CODCFFP</PROPERTY>
+        <PROPERTY name="J-1" type="String">CODCFFJ</PROPERTY>
+        <PROPERTY name="J-2" type="String">CODCFFJ</PROPERTY>
+        <PROPERTY name="Y-1" type="String">CODCFFY1</PROPERTY>
+        <PROPERTY name="Y-2" type="String">CODCFFY2</PROPERTY>
+        <PROPERTY name="Y-3" type="String">CODCFFY3</PROPERTY>
+        <PROPERTY name="Y-4" type="String">CODCFFY4</PROPERTY>
+      </GROUP>
+    <GROUP name="CCPromoCFF">
+        <PROPERTY name="P"   type="String">CODCFFP,CFFP1</PROPERTY>
+        <PROPERTY name="J-1" type="String">CODCFFJ,CFFJ1</PROPERTY>
+        <PROPERTY name="J-2" type="String">CODCFFJ,CFFJ2</PROPERTY>
+        <PROPERTY name="Y-1" type="String">CODCFFY1,CFFY1</PROPERTY>
+        <PROPERTY name="Y-2" type="String">CODCFFY2,CFFY2</PROPERTY>
+        <PROPERTY name="Y-3" type="String">CODCFFY3,CFFY3</PROPERTY>
+        <PROPERTY name="Y-4" type="String">CODCFFY4,CFFY4</PROPERTY>
+      </GROUP>
+      <GROUP name="ClosedUserGroupCFF">
+        <PROPERTY name="P"   type="String">CFFP1</PROPERTY>
+        <PROPERTY name="J-1" type="String">CFFJ1</PROPERTY>
+        <PROPERTY name="J-2" type="String">CFFJ2</PROPERTY>
+        <PROPERTY name="Y-1" type="String">CFFY1</PROPERTY>
+        <PROPERTY name="Y-2" type="String">CFFY2</PROPERTY>
+        <PROPERTY name="Y-3" type="String">CFFY3</PROPERTY>
+        <PROPERTY name="Y-4" type="String">CFFY4</PROPERTY>
+      </GROUP>
+      <!-- end CFF PRODUCTION configuration -->
+
+
+      <!-- list of CFF id numbers used in the global list override for corporate bookings,
+           they corresponding to the Corporate CFF's, although 100 is sent to signify
+           that we're sending more than 1 CFF in the FP call for corporate booking -->
+      <PROPERTY name="cffIdList" type="String">100,139,140,141</PROPERTY>
+
+      <!-- CFF id range for FP currency override -->
+      <PROPERTY name="cffIdRange" type="int">155</PROPERTY>
+
+      <!-- whether or not to use site office ids in the override calls.  can be turned off for test purposes but should be
+           set 'true' in production -->
+      <PROPERTY name="useOfficeIds" type="boolean">true</PROPERTY>
+
+      <!-- Enables/disables use of the preferred currency override in all Amadeus calls -->
+      <PROPERTY name="useCurrencyOverride" type="boolean">true</PROPERTY>
+
+      <!-- for test purposes, can set this to true so that the system hits amadeus production backend
+           regardless of the planitgo environment.  uses hard-coded values so if planitgo changes their
+           configuration, this setting will malfunction.  this should be set false in production. -->
+      <PROPERTY name="useProductionOverride" type="boolean">false</PROPERTY>
+
+      <!-- maps cabin class codes supplied by the front end to Amadeus cabin class codes - FOR VALUEPRICER ONLY -->
+      <!-- Amadeus codes are: F - First, B - Business, E - Economy, R - Restricted economy -->
+      <PROPERTY name="vpCabinClassCodes" type="String">P=F,J=B,Y=E</PROPERTY>
+
+
+      <!-- SoapShooter configurable properties -->
+
+      <!-- connection timeout for establishing http connection with host in milliseconds -->
+      <PROPERTY name="connectionTimeout" type="int">3000</PROPERTY>
+
+      <!-- Socket read timeout in milliseconds. -->
+      <PROPERTY name="socketTimeout" type="int">10000</PROPERTY>
+
+      <!-- Timeout for acquiring a connection from the pool, in milliseconds. -->
+      <PROPERTY name="connectionPoolTimeout" type="int">3000</PROPERTY>
+
+      <!-- max number of connections, per host and total -->
+      <PROPERTY name="maxTotalConnections" type="int">7</PROPERTY>
+      <PROPERTY name="maxConnectionsPerHost" type="int">7</PROPERTY>
+
+      <!-- max number of concurrent connections to the SOAP Shooter -->
+      <PROPERTY name="connectionThreshold" type="int">19</PROPERTY>
+
+      <!-- encoding of xml request sent to amadeus -->
+      <PROPERTY name="encoding" type="String">iso-8859-1</PROPERTY>
+
+      <!-- full URL to amadeus pricing engine -->
+      <!--<PROPERTY name="serviceEndPoint" type="String">https://siteacceptance.wftc3.planitgo.e-travel.com/soap/SOAPRPCRouterServlet</PROPERTY>-->
+      <!--<PROPERTY name="serviceEndPoint" type="String">https://wftc3.e-travel.com/soap/SOAPRPCRouterServlet</PROPERTY>-->
+      <PROPERTY name="serviceEndPoint" type="String">https://wftc3.e-travel.com/soap/SOAPRPCRouterServlet</PROPERTY>
+      <PROPERTY name="akamaiServiceEndPoint" type="String">https://pricing.singaporeair.com/soap/SOAPRPCRouterServlet</PROPERTY>
+
+      <!-- retry count in case we get a SOAP Fault on a call -->
+      <PROPERTY name="retryCount" type="int">1</PROPERTY>
+
+      <!-- username and password for SOAP security -->
+      <PROPERTY name="useSOAPSecurity" type="boolean">true</PROPERTY>
+      <PROPERTY name="username" type="String">saar3</PROPERTY>
+      <PROPERTY name="password" type="String">5un81rd81a7ch</PROPERTY>
+
+      <!-- whether to use SOAP with attachments.  If true, requests and response from Amadeus are part of a
+           MIME attachment referenced by the SOAP message.  If false, the requests and response are
+           inlined into the SOAP message body. -->
+      <PROPERTY name="useSOAPWithAttachments" type="boolean">true</PROPERTY>
+
+    </GROUP><!-- end pricing engine -->
+
+
+    <GROUP name="ChangePIN">
+        <PROPERTY name="NumberOfAttempt" type="int">4</PROPERTY>
+    </GROUP>
+
+
+    <!-- properties for the currency converter loader for OANDA.com -->
+   <!-- <GROUP name="CurrencyConverterLoader">
+        <PROPERTY name="url" type="String">http://www.oanda.com/cgi-bin/fxcommerce/fxcommerce.js?user=singaporeair22</PROPERTY>
+
+       
+        <PROPERTY name="reloadInterval" type="int">1800000</PROPERTY>
+
+       
+        <PROPERTY name="connectionTimeout" type="int">10000</PROPERTY>
+    </GROUP>  --> 
+
+    <!-- Properties for the ett cities loader for goldenware -->
+    <GROUP name="ETTCitiesLoader">
+        <PROPERTY name="url" type="String">http://sq.flightlookup.com/xml-hp.php3?mode=cities</PROPERTY>
+       <!-- <PROPERTY name="fileName" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/FlightInfo/cities.xml</PROPERTY> -->
+       <PROPERTY name="fileName" type="String">/prod/applc/wls/sqdirect/sqdirect/dist/saa3/taw2Web/FlightInfo/cities.xml</PROPERTY>
+
+        <!-- reload interval in milliseconds (Set to 1 day) -->
+        <PROPERTY name="reloadInterval" type="int">86400000</PROPERTY>
+
+        <!-- connection timeout -->
+        <PROPERTY name="connectionTimeout" type="int">10000</PROPERTY>
+    </GROUP>
+    <GROUP name="ETTThrottle">
+      <!-- max number of concurrent connections to the ETT Shooter -->
+      <PROPERTY name="connectionThreshold" type="int">3</PROPERTY>
+    </GROUP>
+    <!-- Properties for the ett cities loader for goldenware -->
+    <GROUP name="ResourceBundleScheduler">
+        <!-- reload interval in milliseconds (Set to 1 day) -->
+        <PROPERTY name="reloadInterval" type="int">1800000</PROPERTY>
+    </GROUP>
+
+    <!-- Equpment code to image mapping -->
+    <GROUP name="AirplaneEquipment">
+      <PROPERTY name="744" type="String">B747_400.gif</PROPERTY>
+      <PROPERTY name="773" type="String">B777_300.gif,B777_300er.gif</PROPERTY>
+      <PROPERTY name="772" type="String">B777_200.gif,B777_200er.gif,B777-200_1.gif</PROPERTY>
+      <PROPERTY name="77R" type="String">B777_200.gif,B777_200er.gif,B777-200_1.gif</PROPERTY>
+      <PROPERTY name="345" type="String">A340_500.gif</PROPERTY>
+      <PROPERTY name="388" type="String">A380_800.gif</PROPERTY>
+  </GROUP>
+
+  <!-- END OF AMS -->
+
+    <!-- Start 03 of 2DBP -->
+  <GROUP name="ElemantFieldMap">
+  <PROPERTY name="A0" type="String">BPFlightDtls.setCarrierCode</PROPERTY>
+  <PROPERTY name="A1" type="String">BPFlightDtls.setFlightNo</PROPERTY>
+  <PROPERTY name="AB" type="String">BPPaxDtls.setPaxRef</PROPERTY>
+  <PROPERTY name="AC" type="String">BPPaxDtls.setSeatNo</PROPERTY>
+  <PROPERTY name="EC" type="String">BPGateDtls.setBoardingTime</PROPERTY>
+  <PROPERTY name="AE" type="String">BPDataObject.setAgentCode</PROPERTY>
+  <PROPERTY name="B0" type="String">BPFlightDtls.setOrigin</PROPERTY>
+  <PROPERTY name="B1" type="String">BPFlightDtls.setDestination</PROPERTY>
+  <PROPERTY name="B2" type="String">BPFlightDtls.setOrigin_Desc</PROPERTY>
+  <PROPERTY name="B3" type="String">BPFlightDtls.setDestination_Desc</PROPERTY>
+  <PROPERTY name="B4" type="String">BPGateDtls.setBoardingTerminal</PROPERTY>
+  <PROPERTY name="B5" type="String">BPGateDtls.setArrivalTerminal</PROPERTY>
+  <PROPERTY name="B6" type="String">BPFlightDtls.setTravelClass</PROPERTY>
+  <PROPERTY name="BA" type="String">BPPaxDtls.setPaxName</PROPERTY>
+  <PROPERTY name="C3" type="String">BPDataObject.setFreeText1</PROPERTY>
+  <PROPERTY name="C4" type="String">BPDataObject.setFreeText2</PROPERTY>
+  <PROPERTY name="CB" type="String">BPPaxDtls.setSsrRequest1</PROPERTY>
+  <PROPERTY name="D1" type="String">BPPaxDtls.setFpNo</PROPERTY>
+  <PROPERTY name="ED" type="String">BPPaxDtls.setFpTier</PROPERTY>
+  <PROPERTY name="DB" type="String">BPDataObject.setReturnCheckIn</PROPERTY>
+  <PROPERTY name="DA" type="String">BPDataObject.setEtktIndicatorString</PROPERTY>
+  <PROPERTY name="D3" type="String">BPDataObject.setCextString</PROPERTY>
+  <PROPERTY name="DD" type="String">BPPaxDtls.setStartCarrierTier</PROPERTY>
+  <PROPERTY name="E7" type="String">BPFlightDtls.setFlightDate</PROPERTY>
+  <PROPERTY name="E8" type="String">BPFlightDtls.setSellingClass</PROPERTY>
+<!-- MKP90900 : A380 2DBP changes -->
+  <PROPERTY name="F1" type="String">BPFlightDtls.setDeckInfo</PROPERTY>
+  <PROPERTY name="EA" type="String">BPDataObject.setChannelBMsg</PROPERTY>
+  <PROPERTY name="EB" type="String">BPDataObject.setBarCodeStr</PROPERTY>
+  <PROPERTY name="E9" type="String">BPPaxDtls.setTicketNumber</PROPERTY>
+  <PROPERTY name="D4" type="String">BPDataObject.setOriginStationUplift</PROPERTY>
+  <PROPERTY name="E6" type="String">BPDataObject.setApis</PROPERTY>
+  <PROPERTY name="C5" type="String">BPDataObject.setLoungeInvitation</PROPERTY>
+  </GROUP>
+  <!-- End 03 of 2DBP -->
+  <!--MKP90562 User Id / Password for Crawler START-->
+  <GROUP name="BlackListFilter">
+    <PROPERTY name="DetectDirectCrawler" type="boolean">true</PROPERTY>
+    <PROPERTY name="CheckExcludeIP" type="boolean">true</PROPERTY>
+    <PROPERTY name="CheckBlackListIP" type="boolean">true</PROPERTY>
+    <PROPERTY name="CheckDirectAccess" type="boolean">true</PROPERTY>
+    <PROPERTY name="CheckQuickReq" type="boolean">true</PROPERTY>
+  </GROUP>
+  <!--MKP90562 User Id / Password for Crawler END-->
+  <GROUP name="CreditCardCIdFlag">
+    <PROPERTY name="AMEXCID" type="boolean">true</PROPERTY>
+  </GROUP>
+  <!-- Mail ID changed starts-->
+    <GROUP name="DSEmailID">
+    <!-- <PROPERTY name="ADMINEMAIL" type="String">vivek_jain@singaporeair.com.sg</PROPERTY> -->
+    <PROPERTY name="ADMINEMAIL" type="String">Timothy_Teh@singaporeair.com.sg</PROPERTY>
+    <!-- Mail ID changed ends-->
+  </GROUP>
+
+  <GROUP name="RedemptionUpgrade">
+    <PROPERTY name="DateLimitMin" type="int">24</PROPERTY>
+    <PROPERTY name="PromoClassCodes" type="String">V,Q,G,N,T</PROPERTY>
+    <PROPERTY name="adminORUConnectionEmail" type="String">SAA_AMS@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="adminORUConnectionSubject" type="String">Online Redemption Upgrade - Connection Failure.</PROPERTY>
+    <PROPERTY name="adminORUConnectionFromAddress" type="String">SAA_AMS@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="adminORURollBackSubject" type="String">Online Redemption Upgrade - Transaction Rollback Failure.</PROPERTY>
+    <PROPERTY name="UpgradeDuplicateFailureSubject" type="String">Online Redemption Upgrade - Failure due to duplicate record.</PROPERTY>
+    </GROUP>
+
+  <GROUP name="PaymentGateway">
+    <PROPERTY name="WsdlUrl" type="String">http://eapsxd04:7011/PaymentService/PaymentServiceEJB?WSDL</PROPERTY>
+    <PROPERTY name="SPSLHOST" type="String">@paymentGateway.spslhost@</PROPERTY>
+    <PROPERTY name="ConnectionThreshold" type="int">7</PROPERTY>
+  </GROUP>
+  <!-- Added for KF Online Services - start - ravi-->
+  <GROUP name="KFSMARMS">
+    <PROPERTY name="WsdlUrl" type="String">http://marmsdev.sq.com.sg:8101/PaymentWebservice/PaymentFacadeService?WSDL</PROPERTY>
+    <PROPERTY name="username" type="String">PaymentUser</PROPERTY>
+    <PROPERTY name="password" type="String">password</PROPERTY>
+  </GROUP>
+  <!-- Added for KF Online Services - end - ravi-->
+    <!-- Added for MKP91488 - Inclusion of more titles -->
+  <GROUP name="MarmsTitle">
+    <PROPERTY name="WsdlUrl" type="String">http://marmsdev.sq.com.sg:8101/CustomerInfoService/CustomerInfoService?WSDL</PROPERTY>
+    <PROPERTY name="username" type="String">TIPSUser</PROPERTY>
+    <PROPERTY name="password" type="String">password</PROPERTY>
+  </GROUP>
+  <!-- Added for MKP91488 - Inclusion of more titles -->
+   <GROUP name="AutoRefund">
+    <PROPERTY name="WsdlUrl" type="String">http://lapsxd29:8701/autorefundswebservice/SAAAutoRefundsService?WSDL</PROPERTY>
+  </GROUP>
+   <GROUP name="SSHAutoRefund">
+    <PROPERTY name="WsdlUrl" type="String">http://lapsxd29:8701/autorefundswebservice/SAAESSHAutoRefundsService?WSDL</PROPERTY>
+  </GROUP>
+  <GROUP name="MecuryInteractive">
+    <PROPERTY name="KF" type="String">8082002087</PROPERTY>
+    <PROPERTY name="SAAChanel" type="String">SAA</PROPERTY>
+    <PROPERTY name="MercuryChanel" type="String">SMI</PROPERTY>
+    <PROPERTY name="Country" type="String">XX</PROPERTY>
+  </GROUP>
+  <GROUP name="AtlasNumeric">
+    <PROPERTY name="include" type="boolean">true</PROPERTY>
+    <PROPERTY name="ABZ" type="String">001</PROPERTY>
+    <PROPERTY name="ADL" type="String">002</PROPERTY>
+    <PROPERTY name="AKL" type="String">003</PROPERTY>
+    <PROPERTY name="AMD" type="String">004</PROPERTY>
+    <PROPERTY name="AMI" type="String">005</PROPERTY>
+    <PROPERTY name="AMS" type="String">006</PROPERTY>
+    <PROPERTY name="ATH" type="String">007</PROPERTY>
+    <PROPERTY name="ATQ" type="String">008</PROPERTY>
+    <PROPERTY name="AUH" type="String">009</PROPERTY>
+    <PROPERTY name="BCN" type="String">010</PROPERTY>
+    <PROPERTY name="BFS" type="String">011</PROPERTY>
+    <PROPERTY name="BKI" type="String">012</PROPERTY>
+    <PROPERTY name="BKK" type="String">013</PROPERTY>
+    <PROPERTY name="BLQ" type="String">014</PROPERTY>
+    <PROPERTY name="BLR" type="String">015</PROPERTY>
+    <PROPERTY name="BNE" type="String">016</PROPERTY>
+    <PROPERTY name="BOM" type="String">017</PROPERTY>
+    <PROPERTY name="BPN" type="String">018</PROPERTY>
+    <PROPERTY name="BRE" type="String">019</PROPERTY>
+    <PROPERTY name="BSL" type="String">020</PROPERTY>
+    <PROPERTY name="BWN" type="String">021</PROPERTY>
+    <PROPERTY name="CAI" type="String">022</PROPERTY>
+    <PROPERTY name="CAN" type="String">023</PROPERTY>
+    <PROPERTY name="CCU" type="String">024</PROPERTY>
+    <PROPERTY name="PAR" type="String">025</PROPERTY>
+    <PROPERTY name="CEB" type="String">026</PROPERTY>
+    <PROPERTY name="JKT" type="String">027</PROPERTY>
+    <PROPERTY name="CGN" type="String">028</PROPERTY>
+    <PROPERTY name="CHC" type="String">029</PROPERTY>
+    <PROPERTY name="CKG" type="String">030</PROPERTY>
+    <PROPERTY name="CMB" type="String">031</PROPERTY>
+    <PROPERTY name="CNX" type="String">032</PROPERTY>
+    <PROPERTY name="COK" type="String">033</PROPERTY>
+    <PROPERTY name="CPH" type="String">034</PROPERTY>
+    <PROPERTY name="CPT" type="String">035</PROPERTY>
+    <PROPERTY name="CTU" type="String">036</PROPERTY>
+    <PROPERTY name="DAC" type="String">037</PROPERTY>
+    <PROPERTY name="DAD" type="String">038</PROPERTY>
+    <PROPERTY name="DEL" type="String">039</PROPERTY>
+    <PROPERTY name="MOW" type="String">040</PROPERTY>
+    <PROPERTY name="DPS" type="String">041</PROPERTY>
+    <PROPERTY name="DRS" type="String">042</PROPERTY>
+    <PROPERTY name="DUB" type="String">043</PROPERTY>
+    <PROPERTY name="DUS" type="String">044</PROPERTY>
+    <PROPERTY name="DVO" type="String">045</PROPERTY>
+    <PROPERTY name="DXB" type="String">046</PROPERTY>
+    <PROPERTY name="EDI" type="String">047</PROPERTY>
+    <PROPERTY name="NYC" type="String">048</PROPERTY>
+    <PROPERTY name="ROM" type="String">049</PROPERTY>
+    <PROPERTY name="FDH" type="String">050</PROPERTY>
+    <PROPERTY name="FMO" type="String">051</PROPERTY>
+    <PROPERTY name="FRA" type="String">052</PROPERTY>
+    <PROPERTY name="FUK" type="String">053</PROPERTY>
+    <PROPERTY name="GLA" type="String">054</PROPERTY>
+    <PROPERTY name="GRZ" type="String">055</PROPERTY>
+    <PROPERTY name="GVA" type="String">056</PROPERTY>
+    <PROPERTY name="HAJ" type="String">057</PROPERTY>
+    <PROPERTY name="HAM" type="String">058</PROPERTY>
+    <PROPERTY name="HAN" type="String">059</PROPERTY>
+    <PROPERTY name="HDY" type="String">060</PROPERTY>
+    <PROPERTY name="HKG" type="String">061</PROPERTY>
+    <PROPERTY name="HKT" type="String">062</PROPERTY>
+    <PROPERTY name="HYD" type="String">063</PROPERTY>
+    <PROPERTY name="SEL" type="String">064</PROPERTY>
+    <PROPERTY name="INN" type="String">065</PROPERTY>
+    <PROPERTY name="IST" type="String">066</PROPERTY>
+    <PROPERTY name="JED" type="String">067</PROPERTY>
+    <PROPERTY name="NYC" type="String">068</PROPERTY>
+    <PROPERTY name="JNB" type="String">069</PROPERTY>
+    <PROPERTY name="KBV" type="String">070</PROPERTY>
+    <PROPERTY name="KCH" type="String">071</PROPERTY>
+    <PROPERTY name="KEL" type="String">072</PROPERTY>
+    <PROPERTY name="KHI" type="String">073</PROPERTY>
+    <PROPERTY name="OSA" type="String">074</PROPERTY>
+    <PROPERTY name="KLU" type="String">075</PROPERTY>
+    <PROPERTY name="KMG" type="String">076</PROPERTY>
+    <PROPERTY name="KUL" type="String">077</PROPERTY>
+    <PROPERTY name="LAX" type="String">078</PROPERTY>
+    <PROPERTY name="LBA" type="String">079</PROPERTY>
+    <PROPERTY name="LEJ" type="String">080</PROPERTY>
+    <PROPERTY name="LGK" type="String">081</PROPERTY>
+    <PROPERTY name="LHE" type="String">082</PROPERTY>
+    <PROPERTY name="LON" type="String">083</PROPERTY>
+    <PROPERTY name="MAA" type="String">084</PROPERTY>
+    <PROPERTY name="MAN" type="String">085</PROPERTY>
+    <PROPERTY name="MDC" type="String">086</PROPERTY>
+    <PROPERTY name="MEL" type="String">087</PROPERTY>
+    <PROPERTY name="MES" type="String">088</PROPERTY>
+    <PROPERTY name="MLE" type="String">089</PROPERTY>
+    <PROPERTY name="MME" type="String">090</PROPERTY>
+    <PROPERTY name="MNL" type="String">091</PROPERTY>
+    <PROPERTY name="MUC" type="String">092</PROPERTY>
+    <PROPERTY name="MIL" type="String">093</PROPERTY>
+    <PROPERTY name="NGO" type="String">094</PROPERTY>
+    <PROPERTY name="NKG" type="String">095</PROPERTY>
+    <PROPERTY name="TYO" type="String">096</PROPERTY>
+    <PROPERTY name="NUE" type="String">097</PROPERTY>
+    <PROPERTY name="ORK" type="String">098</PROPERTY>
+    <PROPERTY name="PAD" type="String">099</PROPERTY>
+    <PROPERTY name="BJS" type="String">100</PROPERTY>
+    <PROPERTY name="PEN" type="String">101</PROPERTY>
+    <PROPERTY name="PER" type="String">102</PROPERTY>
+    <PROPERTY name="PLM" type="String">103</PROPERTY>
+    <PROPERTY name="PNH" type="String">104</PROPERTY>
+    <PROPERTY name="SHA" type="String">105</PROPERTY>
+    <PROPERTY name="REP" type="String">106</PROPERTY>
+    <PROPERTY name="RGN" type="String">107</PROPERTY>
+    <PROPERTY name="SFO" type="String">108</PROPERTY>
+    <PROPERTY name="SGN" type="String">109</PROPERTY>
+    <PROPERTY name="SIN" type="String">110</PROPERTY>
+    <PROPERTY name="SNN" type="String">111</PROPERTY>
+    <PROPERTY name="SOC" type="String">112</PROPERTY>
+    <PROPERTY name="STR" type="String">113</PROPERTY>
+    <PROPERTY name="SUB" type="String">114</PROPERTY>
+    <PROPERTY name="SYD" type="String">115</PROPERTY>
+    <PROPERTY name="SZG" type="String">116</PROPERTY>
+    <PROPERTY name="SZX" type="String">117</PROPERTY>
+    <PROPERTY name="TPE" type="String">118</PROPERTY>
+    <PROPERTY name="TRV" type="String">119</PROPERTY>
+    <PROPERTY name="BER" type="String">120</PROPERTY>
+    <PROPERTY name="VCE" type="String">121</PROPERTY>
+    <PROPERTY name="VIE" type="String">122</PROPERTY>
+    <PROPERTY name="WLG" type="String">123</PROPERTY>
+    <PROPERTY name="XMN" type="String">124</PROPERTY>
+    <PROPERTY name="YVR" type="String">125</PROPERTY>
+    <PROPERTY name="ZRH" type="String">126</PROPERTY>
+    <PROPERTY name="BHD" type="String">011</PROPERTY>
+    <PROPERTY name="CDG" type="String">025</PROPERTY>
+    <PROPERTY name="CGK" type="String">027</PROPERTY>
+    <PROPERTY name="DME" type="String">040</PROPERTY>
+    <PROPERTY name="EWR" type="String">048</PROPERTY>
+    <PROPERTY name="JFK" type="String">048</PROPERTY>
+    <PROPERTY name="FCO" type="String">049</PROPERTY>
+    <PROPERTY name="ICN" type="String">064</PROPERTY>
+    <PROPERTY name="KIX" type="String">074</PROPERTY>
+    <PROPERTY name="LHR" type="String">083</PROPERTY>
+    <PROPERTY name="MXP" type="String">093</PROPERTY>
+    <PROPERTY name="NRT" type="String">096</PROPERTY>
+    <PROPERTY name="PEK" type="String">100</PROPERTY>
+    <PROPERTY name="PVG" type="String">105</PROPERTY>
+    <PROPERTY name="TXL" type="String">120</PROPERTY>
+  </GROUP>
+  <GROUP name="ETT">
+    <PROPERTY name="TimeOut" type="int">3600</PROPERTY>
+  </GROUP>
+  <GROUP name="GVFARE">
+    <PROPERTY name="GV2" type="String">031914</PROPERTY>
+    <PROPERTY name="GV4" type="String">029716</PROPERTY>
+  </GROUP>
+  <GROUP name="LOG">
+    <PROPERTY name="PRIORITY" type="int">1</PROPERTY>
+    <PROPERTY name="CONNECTIONFACTORY_JNDI" type="String">JMSLOGJNDI</PROPERTY>
+    <PROPERTY name="QUEUE_JNDI" type="String">JMSLogQueueJNDI</PROPERTY>
+    <PROPERTY name="PORT" type="String">7531</PROPERTY>
+    <PROPERTY name="serverIP" type="String">192.168.134.76:7531</PROPERTY>
+    <PROPERTY name="DATE1" type="int">1</PROPERTY>
+    <PROPERTY name="DATE2" type="int">16</PROPERTY>
+    <PROPERTY name="toAddress1" type="String">Jackson_chia@singaporeair.com.sg,Bernadette_Lim@singaporeair.com.sg,WeiChao_Du@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddress2" type="String">Direct_Marketing@singaporeair.com.sg,Tony_Teo@singaporeair.com.sg,Yu_Kuo@singaporeair.com.sg,ChingChing_Tan@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddresscc" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="subject" type="String">SAA Application Payment Error Report -  </PROPERTY>
+    <PROPERTY name="bodycontent" type="String">Payment Errors</PROPERTY>
+    <PROPERTY name="fromAddress" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="fileName" type="String">SAA-ErrorReport</PROPERTY>
+    <PROPERTY name="filePath" type="String">/prod/applc/wls/sqdirect/logs/application/SAA-ErrorReport</PROPERTY>
+  </GROUP>
+  <!-- <GROUP name="LOG">
+    <PROPERTY name="PRIORITY" type="int">1</PROPERTY>
+    <PROPERTY name="CONNECTIONFACTORY_JNDI" type="String">JMSLOGJNDI</PROPERTY>
+    <PROPERTY name="QUEUE_JNDI" type="String">JMSLogQueueJNDI</PROPERTY>
+    <PROPERTY name="PORT" type="String">7531</PROPERTY>
+    <PROPERTY name="serverIP" type="String">192.168.142.65:7531</PROPERTY>
+    <PROPERTY name="DATE1" type="int">1</PROPERTY>
+    <PROPERTY name="DATE2" type="int">16</PROPERTY>
+    <PROPERTY name="toAddress1" type="String">yazararafat_tajudeen@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddress2" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddresscc" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="subject" type="String">SAA Application Payment Error Report -  </PROPERTY>
+    <PROPERTY name="bodycontent" type="String">Payment Errors</PROPERTY>
+    <PROPERTY name="fromAddress" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="fileName" type="String">SAA-ErrorReport</PROPERTY>
+    <PROPERTY name="filePath" type="String">/prod/applc/wls/sqdirect/logs/application/SAA-ErrorReport</PROPERTY>
+  </GROUP> -->
+
+  <!-- Added for MKP91158 Starts 
+<GROUP name="LOGFRAUDEMAIL">    
+        <PROPERTY name="PRIORITY" type="int">1</PROPERTY>
+    <PROPERTY name="CONNECTIONFACTORY_JNDI" type="String">JMSLOGJNDI</PROPERTY>
+    <PROPERTY name="QUEUE_JNDI" type="String">JMSLogQueueJNDI</PROPERTY>
+    <PROPERTY name="PORT" type="String">7531</PROPERTY>   
+    <PROPERTY name="serverIP" type="String">capsxd103:6601</PROPERTY>
+    <PROPERTY name="DATE" type="int">2</PROPERTY>   
+    <PROPERTY name="toAddress1" type="String">Vivek_Jain@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddress2" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddresscc" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="subject" type="String">SAA Fradulent Email Report -  </PROPERTY>
+    <PROPERTY name="bodycontent" type="String">Please find the attached report of Fraudulent emails for the month of : </PROPERTY>  
+    <PROPERTY name="fromAddress" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="fileName" type="String">SAA_FRAUDULENT_EMAIL_REPORT</PROPERTY>
+    <PROPERTY name="filePath" type="String">/prod/applc/wls/sqdirect/logs/application/SAA_FRAUDULENT_EMAIL_REPORT</PROPERTY>
+  </GROUP> -->
+<!-- Added for MKP91158 Ends -->
+
+<!-- MKP 91226 Linking SQ Booking Engine to MI Sambath 
+<GROUP name="LOGDEEPLINKEMAIL">   
+    <PROPERTY name="PRIORITY" type="int">1</PROPERTY>
+  <PROPERTY name="CONNECTIONFACTORY_JNDI" type="String">JMSLOGJNDI</PROPERTY>
+  <PROPERTY name="QUEUE_JNDI" type="String">JMSLogQueueJNDI</PROPERTY>
+  <PROPERTY name="PORT" type="String">7531</PROPERTY>   
+  <PROPERTY name="serverIP" type="String">192.168.142.65:7531</PROPERTY>
+  <PROPERTY name="DATE" type="int">2</PROPERTY>   
+  <PROPERTY name="toAddress1" type="String">Direct_Marketing@singaporeair.com.sg</PROPERTY>
+  <PROPERTY name="toAddress2" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+  <PROPERTY name="toAddresscc" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+  <PROPERTY name="subject" type="String">SAA SQ-MI Deep Linking Email Report -  </PROPERTY>
+  <PROPERTY name="bodycontent" type="String">Please find the attached report of SQ-MI Deep Linking emails for the month of : </PROPERTY>  
+  <PROPERTY name="fromAddress" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+  <PROPERTY name="fileName" type="String">SQ_MI_DEEPLINK_EMAIL_REPORT</PROPERTY>
+  <PROPERTY name="filePath" type="String">/prod/applc/wls/sqdirect/logs/application/SQ_MI_DEEPLINK_EMAIL_REPORT</PROPERTY>
+</GROUP> -->
+<!-- MKP 91226 Linking SQ Booking Engine to MI Sambath -->
+
+  <!-- <GROUP name="CAPTURE">
+    <PROPERTY name="PRIORITY" type="int">1</PROPERTY>
+    <PROPERTY name="serverIP" type="String">capsxd103:6601</PROPERTY>
+    <PROPERTY name="toAddress1" type="String">abdul_abeed@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddress2" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddresscc" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="subject" type="String">SAA AUTO CAPTURE Report -  </PROPERTY>
+    <PROPERTY name="fcsubject" type="String">SAA CAPTURE FAILURES Report -  </PROPERTY>
+    <PROPERTY name="bodycontent" type="String">Please save the attachment in .xls format.Open the excel sheet then open the saved document. Wizard will open, click next then uncheck the tab box and check the other box and enter | in that. Then next and Finish.</PROPERTY>
+    <PROPERTY name="fcbodycontent" type="String">Please save the attachment in .xls format.Open the excel sheet then open the saved document. Wizard will open, click next then uncheck the tab box and check the other box and enter | in that. Then next and Finish.</PROPERTY>
+    <PROPERTY name="fromAddress" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="fileName" type="String">SAA-AutoCaptureReport</PROPERTY>
+    <PROPERTY name="filePath" type="String">/prod/applc/wls/sqdirsitdomain/logs/application/SAA-AutoCaptureReport</PROPERTY>
+    <PROPERTY name="fcfileName" type="String">SAA-FailedCaptureReport</PROPERTY>
+    <PROPERTY name="fcfilePath" type="String">/prod/applc/wls/sqdirsitdomain/logs/application/SAA-FailedCaptureReport</PROPERTY>
+  </GROUP> -->
+
+  <GROUP name="NRUUserPin">
+    <PROPERTY name="resendCount" type="int">5</PROPERTY>
+    <PROPERTY name="trialCount" type="int">5</PROPERTY>
+  <!-- Added for MKP91065 - Logesh_10 Jan -->
+    <PROPERTY name="thresholdcount" type="int">5</PROPERTY>
+    <PROPERTY name="timelimit" type="int">10</PROPERTY>
+    <PROPERTY name="sshResendCount" type="int">5</PROPERTY>
+    <PROPERTY name="sshRetryCount" type="int">5</PROPERTY>
+  </GROUP>
+
+  <GROUP name="CRAWLER">
+
+    <PROPERTY name="CRAWLER_FS_MINTIME" type="boolean">false</PROPERTY>
+
+    <PROPERTY name="CRAWLER_FS_COUNT" type="boolean">true</PROPERTY>
+
+    <PROPERTY name="FS_COUNT_MIN" type="int">5</PROPERTY>
+    <PROPERTY name="FS_COUNT_MAX" type="int">10</PROPERTY>
+    <PROPERTY name="FS_SECONDS" type="int">60</PROPERTY>
+  </GROUP>
+
+
+    <GROUP name="MIXED_REDEMPTION">
+    <PROPERTY name="ENABLE" type="boolean">true</PROPERTY>
+  </GROUP>
+  <GROUP name="Environment">
+    <PROPERTY name="subjectEnv" type="String">UAT</PROPERTY>
+  </GROUP>
+
+   <!-- Corporate Portal changes -->
+
+  <!--
+     <GROUP name="SIANews">
+        <PROPERTY name="IndexLocation" type="int">./sing001/dist/saa3/cpWeb/en_UK/content/corporate</PROPERTY>
+        <PROPERTY name="IndexFileLocation" type="int">/content/corporate/</PROPERTY>
+    </GROUP>  
+  -->
+<!--
+    <GROUP name="ViewFares">
+        <PROPERTY name="FileLocation" type="int">./sing001/dist/saa3/cpWeb/en_UK/content/corporate/</PROPERTY>
+    </GROUP>   
+
+           <GROUP name="CorporatePortal">
+                <PROPERTY name="sfaWsdlUrl" type="String">https://sindceap2k3d02.sqdev.com.sg:83/SFAWebService/LeadIntegration.asmx?wsdl</PROPERTY>
+                <PROPERTY name="leadcreateMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/LeadCreate_Mapping.xml</PROPERTY>
+                <PROPERTY name="leadcreateResponseMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/LeadCreateResponse_Mapping.xml</PROPERTY>
+                <PROPERTY name="leadUpdateMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/LeadUpdate_Mapping.xml</PROPERTY>
+              <PROPERTY name="leadUpdateResponseMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/LeadCreateResponse_Mapping.xml</PROPERTY>
+        <PROPERTY name="marmsWsdlUrl" type="String">http://eapsxd01:8101/PortalWebservice/PortalFacadeService?WSDL</PROPERTY>
+        <PROPERTY name="cpsgeneralstmtMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/CPSGeneralStmt_Mapping.xml</PROPERTY>
+        <PROPERTY name="cpsactivitystmtMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/CPSActivityStmt_Mapping.xml</PROPERTY>
+        <PROPERTY name="cpsdynastmtMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/CPSDynaStmt_Mapping.xml</PROPERTY>
+
+        <PROPERTY name="cpsgeneralstmtresMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/CPSGeneralStmtRes_Mapping.xml</PROPERTY>
+        <PROPERTY name="cpsdynastmtresMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/CPSDynaStmtRes_Mapping.xml</PROPERTY>
+        <PROPERTY name="cpsdynastmtresforperiodMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/CPSDynaStmtResForPeriod_Mapping.xml</PROPERTY>
+        <PROPERTY name="cpsactivitystmtresMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/CPSActivityStmtRes_Mapping.xml</PROPERTY>
+        <PROPERTY name="cpserrorresMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/cpWeb/mappingfile/CPSError_Mapping.xml</PROPERTY>
+      
+
+
+          <PROPERTY name="EmailUrl" type="String">http://eapsxd03:7531/</PROPERTY>
+          <PROPERTY name="EmailPath" type="String">cp/Booking/retrievePNRfromEmail.jspx?pnrCode=</PROPERTY>
+            <PROPERTY name="EmailPath2" type="String">&amp;isELink=</PROPERTY>
+            <PROPERTY name="EmailPath3" type="String">&amp;method=executeAction</PROPERTY>
+
+         </GROUP>
+-->
+
+  <!-- End Changed for Corporate Portal -->
+<!--Start TAW Changes -->
+  <GROUP name="taw">
+            <GROUP name="Pagination">
+              <PROPERTY name="pageSize" type="String">10</PROPERTY>
+                  <PROPERTY name="pageSizeAT" type="String">10</PROPERTY>
+            </GROUP>
+        </GROUP>       
+
+<!--End of TAW Changes-->
+
+    <GROUP name="AutoCaptureFailureFiles">
+         <PROPERTY name="FileLocation" type="int">/prod/applc/wls/sqdirect/sqdirect/dist/logs/</PROPERTY>
+    </GROUP>
+
+   <GROUP name="DefaultFareFamily">
+        <PROPERTY name="CIB_Economy" type="String">FF1,FF2,FF3,FF4,FF5</PROPERTY>
+    <PROPERTY name="CIB_Business" type="String">FF6</PROPERTY>
+    <PROPERTY name="CIB_First" type="String">FF8</PROPERTY>
+    <PROPERTY name="CodeMarketing_Economy" type="String">FD1</PROPERTY>
+    <PROPERTY name="CodeMarketing_Business" type="String">FD2</PROPERTY>
+    <PROPERTY name="CodeMarketing_First" type="String">FD3</PROPERTY>
+    <PROPERTY name="CP_Economy" type="String">FC1</PROPERTY>
+    <PROPERTY name="CP_Business" type="String">FC2</PROPERTY>
+    <PROPERTY name="CP_First" type="String">FC3</PROPERTY>
+   </GROUP>   
+  <GROUP name="EFEE">
+    
+    <PROPERTY name="WsdlUrl" type="String">https://eapsxd02.sq.com.sg:7012/efee/CollectionFees?WSDL</PROPERTY>
+
+  </GROUP>
+   
+   <GROUP name="SAAADMIN">
+       <GROUP name="SAM">
+        <PROPERTY name="AdminLimit" type="int">2</PROPERTY>
+      </GROUP>
+  </GROUP>
+<!--
+  <GROUP name="KFS">
+
+  <PROPERTY name="reqAmtTopUpMilesMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/reqAmtTopUpMiles_Mapping.xml</PROPERTY>
+  <PROPERTY name="responseTopUpMilesRateMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/responseTopUpMilesRate_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsTopUpMilesMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsgeneralstmtMappingoutput" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_updateout.txt</PROPERTY>
+  <PROPERTY name="kfsMappingOutputTopUpMiles" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsMappingNomineeRequest" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputNomineeResponse" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_updateoutforUpdate.txt</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputNomineeResponseObject" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsgeneralstmtMappingmilesRequest" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputMilesResponseObject" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputMilesResponseflatfile" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputErrorResponse" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputErrorResponseFlatFile" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_Mapping.xml</PROPERTY> 
+  <PROPERTY name="pgauthpayment" type="String">/Booking/pgauthkfspayment.jspx</PROPERTY>
+  <PROPERTY name="sorKFS" type="String">355</PROPERTY>
+  <PROPERTY name="agentCodeKFS" type="String">32375276</PROPERTY>
+
+  <PROPERTY name="kfsGeneralStmtMappingoutputQueryMilesRequestObject" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_queryMilesRequest.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputQueryMilesResponseObject" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_queryMilesResponse.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputQueryAdminFeeRequestObject" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_queryAdminFeeRequest.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingoutputQueryAdminFeeResponseObject" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_queryAdminFeeResponse.xml</PROPERTY>
+
+  
+
+  <PROPERTY name="kfsGeneralStmtMappingInputRDPNAdminFee" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_queryRDPNAdminFeeRequest.xml</PROPERTY>
+  <PROPERTY name="kfsGeneralStmtMappingOutputRDPNAdminFee" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/kfsGeneralStmt_queryRDPNAdminFeeResponse.xml</PROPERTY>
+
+  <PROPERTY name="createEventLogRequestMappingFile" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/createEventLogReq_Mapping.xml</PROPERTY>
+  <PROPERTY name="createEventLogResponseMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/createEventLogRes_Mapping.xml</PROPERTY>
+
+  </GROUP>
+-->
+
+<!-- Added for MKP91163 -->
+   <GROUP name="REDEEM_MILES">
+       <GROUP name="TRAVELPLANNER">
+          <PROPERTY name="ODCOUNT" type="int">1</PROPERTY>
+        <!-- ODCOUNT SHOULD BE MATCH WITH MAX NO OF ORIGIN AND DESTINATION -->
+        <PROPERTY name="ORIGIN0" type="String">SIN</PROPERTY>
+        <PROPERTY name="DESTINATION0" type="String">EWR</PROPERTY>
+        <PROPERTY name="ORIGIN1" type="String">EWR</PROPERTY>
+        <PROPERTY name="DESTINATION1" type="String">SIN</PROPERTY>
+
+      </GROUP>
+  </GROUP>
+
+   <GROUP name="TRAVELPLANNER0">
+      <GROUP name="ODPAIR">
+          <PROPERTY name="ODCOUNT" type="int">0</PROPERTY>
+        <!-- ODCOUNT SHOULD BE MATCH WITH MAX NO OF ORIGIN AND DESTINATION -->
+        <PROPERTY name="ORIGIN0" type="String">SIN</PROPERTY>
+        <PROPERTY name="DESTINATION0" type="String">EWR</PROPERTY>
+      </GROUP>
+   </GROUP>
+
+      <GROUP name="TRAVELPLANNER1">
+    <GROUP name="ORIGINCITY">
+        <PROPERTY name="ORIGINCOUNT" type="int">0</PROPERTY>
+        <!-- ODCOUNT SHOULD BE MATCH WITH MAX NO OF ORIGIN  -->
+      <PROPERTY name="ORIGIN0" type="String">EWR</PROPERTY>
+         </GROUP>
+   </GROUP>
+    <GROUP name="SPML_DATE">
+    <GROUP name="MEALDATE">
+        <PROPERTY name="FIXEDDATE" type="String">01/06/2009</PROPERTY>
+     </GROUP>
+   </GROUP>
+<!-- Added for MKP91184 & MKP91199-->
+      <GROUP name="SSH">
+    <GROUP name="CHECKOUTDATE">
+        <PROPERTY name="HOUR_LIMIT" type="int">3</PROPERTY>
+      <PROPERTY name="MIN_LIMIT" type="int">30</PROPERTY>
+    </GROUP>
+    </GROUP>
+
+   <!-- BEGIN : Mobile Commerce -->
+   <GROUP name="MobileCommerce">
+  <PROPERTY name="Allow_IP_List" type="String">202.157.152.117,192.168.138.54,192.168.138.51,192.168.101.208,10.68.151.200,202.157.152.52,10.68.151.108,192.168.101.199,192.168.101.203,10.72.150.66,10.68.160.200,10.68.160.201,10.68.160.42,192.168.134.194,192.168.134.193,10.72.150.1,10.72.150.76,10.72.150.127,10.72.150.94,10.72.150.66,10.72.150.149,10.72.150.96,10.68.160.205</PROPERTY>
+   </GROUP>
+   
+    <GROUP name="MobileCommerce_SMSService">
+    <PROPERTY name="MOB_ERR_901" type="String">Your device does not have sufficient memory, please create some space before re-downloading.</PROPERTY>
+    <PROPERTY name="MOB_ERR_903" type="String">Network error, please re-download application again.</PROPERTY>
+    <PROPERTY name="MOB_ERR_904" type="String">Network error, please re-download application again.</PROPERTY>
+    <PROPERTY name="MOB_ERR_905" type="String">Error in downloading the application, please re-download again.</PROPERTY>
+    <PROPERTY name="MOB_ERR_906" type="String">Error in downloading the application, please re-download again.</PROPERTY>
+    <PROPERTY name="MOB_ERR_907" type="String">Error in downloading the application, please re-download again.</PROPERTY>
+    <PROPERTY name="MOB_ERR_909" type="String">Please set your phone date to the current date and re-download again.</PROPERTY>
+    <PROPERTY name="MOB_ERR_910" type="String">Error in downloading the application, please re-download again.</PROPERTY>
+    <!-- Added for MKP90710 MCommerce PG CR - Start --> 
+    <PROPERTY name="Booking_Success_1" type="String">Your booking is confirmed. Your booking reference number is </PROPERTY>
+    <PROPERTY name="Booking_Success_2" type="String">and an email confirmation will be sent to you.  Please note that you will be required to present the credit/debit card used for this booking for verification at the time of check-in at the Airport.</PROPERTY>
+    <!-- Added for MKP90710 MCommerce PG CR - End -->
+   </GROUP>
+
+   <!-- END : Mobile Commerce -->
+   
+  <GROUP name="NOSHOW">
+    <PROPERTY name="pgauthnoshow" type="String">/Booking/pgauthnoshow.jspx</PROPERTY>
+    <PROPERTY name="ddauthnoshow" type="String">/Booking/ddAuthnoshow.jspx</PROPERTY>
+    <!-- BEGIN : MKP91046 by MuthuKumar -->
+    <PROPERTY name="allowstatus" type="String">OPEN,*OPEN,NSUPN</PROPERTY>
+    <PROPERTY name="notvalidstatus" type="String">USED,FIM,EXCH,VOID,RFND,DWGD,PRNT,XPRT,PNRF,CKIN,BORD,PUSED,PFIM,PEXCH,PVOID,PRFND,PDWGD,PPRNT,PXPRT,PPNRF,PCKIN,PBORD,POPEN,DWRP,DWRF</PROPERTY>
+    <PROPERTY name="rejectstatus" type="String">*CTRL,*INFO,CTRL,INFO</PROPERTY>
+    <!-- END : MKP91046 by MuthuKumar -->
+  </GROUP>   
+   
+   <!-- SQ ETT : SQ ETT Innovata -->
+
+  <!-- 
+  <GROUP name="ETTQuery">
+  <PROPERTY name="CUSTOMERCODE" type="String">SQ</PROPERTY>
+  <PROPERTY name="PRODUCTCODE" type="String">external</PROPERTY>
+  <PROPERTY name="USERNAME" type="String">SQ</PROPERTY>
+  <PROPERTY name="PASSWORD" type="String">fkljgakl</PROPERTY>
+  <PROPERTY name="REFCODE" type="String">TKC</PROPERTY>
+  <PROPERTY name="IP" type="String">192.168.134.193</PROPERTY>
+  <PROPERTY name="APT_CODETYPE" type="String">STA</PROPERTY>
+  <PROPERTY name="CNX_TYPE" type="String">B</PROPERTY>
+  <PROPERTY name="CUSTOMER_CODE" type="String">SQ</PROPERTY>
+  <PROPERTY name="PRODUCT_CODE" type="String">external</PROPERTY>
+  <PROPERTY name="DAYS_RANGE" type="String">3</PROPERTY>
+  <PROPERTY name="SEARCH_TYPE" type="String">B</PROPERTY>
+  <PROPERTY name="XML_NS" type="String">http://www.w3.org/2001/XMLSchema-instance</PROPERTY>
+  <PROPERTY name="SCHEMA_LOCATION" type="String">GetSchedules_Input.xsd</PROPERTY>
+  <PROPERTY name="connectionTimeout" type="int">120</PROPERTY>
+  <PROPERTY name="connectionThreshold" type="int">3</PROPERTY>
+  <PROPERTY name="REQUEST_MAPPINGXML" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/scheduleReqMapping.xml</PROPERTY>
+  <PROPERTY name="ETT_WSDL_URL" type="String">http://ctk-sq.innovataw3svc.com/ctk-sq.asmx?wsdl</PROPERTY>
+   </GROUP>
+   -->
+  <!-- END : SQ ETT - Innovata ends here -->  
+
+  <!-- Start : ECMS -->
+<!--
+<GROUP name="ECampaign">
+               
+        <PROPERTY name="marmsWsdlUrl" type="String">http://eapsxd01.sq.com.sg:8101/ECMSWebservice/ECMSFacadeService?WSDL </PROPERTY>
+        <PROPERTY name="subscribeNotifyMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/ECMSNotifySubscribe_Mapping.xml</PROPERTY>
+        <PROPERTY name="subscribeNotifyResMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/ECMSNotifySubscribeRes_Mapping.xml</PROPERTY>
+        <PROPERTY name="subscribeConfirmMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/ECMSConfirmSubscribe_Mapping.xml</PROPERTY>
+         <PROPERTY name="subscribeConfirmResMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/ECMSConfirmSubscribeRes_Mapping.xml</PROPERTY>
+
+        <PROPERTY name="customDetailsMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/ECMSCustomerDetails_Mapping.xml</PROPERTY>
+        <PROPERTY name="customDetailsResMapping" type="String">/prod/applc/wls/saar3/sing001/dist/saa3/saa3Web/mappingfile/ECMSCustomerDetailsRes_Mapping.xml</PROPERTY>
+
+    </GROUP>
+-->
+    <!-- END : ECMS -->
+    <GROUP name="KFSTrackerScheduler">
+    <PROPERTY name="enabled" type="boolean">true</PROPERTY>
+    <PROPERTY name="every" type="int">20</PROPERTY>
+    <PROPERTY name="retry" type="int">4</PROPERTY>
+  </GROUP>
+  
+  <!-- START - MKP91366 - Travel Guide by Offbeat CHANGES. [AJAY] -->
+  <GROUP name="OFFBEAT_CONSTANTS">
+    <PROPERTY name="STAYING" type="String">hotel</PROPERTY>
+    <PROPERTY name="PARTER_ID" type="String">singaporeair</PROPERTY>
+    <PROPERTY name="PROGRAM_CODE" type="String">pb200904</PROPERTY>
+  </GROUP>
+  <!-- START - MKP91366 - Travel Guide by Offbeat CHANGES. [AJAY] -->
+  <!-- MKP91424 by thomas starts -->
+    <GROUP name="CreditCardPromotion">
+      <PROPERTY name="FAREFAMILIES" type="String">FD4,FD5,FD6</PROPERTY>
+    </GROUP>
+  <!-- MKP91424 by thomas ends -->
+
+  <!--GMS Phase 2 - MKP91351 - Mariyam - Starts Here -->
+  <GROUP name="GMSSQDIRECT_CUSTOMER_TYPE">  
+    <PROPERTY name="Leisure" type="String">L</PROPERTY>
+    <PROPERTY name="Business" type="String">B</PROPERTY>
+    <PROPERTY name="Incentive" type="String">I</PROPERTY>
+    <PROPERTY name="Cruise" type="String">C</PROPERTY>    
+    <PROPERTY name="Sports" type="String">S</PROPERTY>    
+    <PROPERTY name="Religious" type="String">R</PROPERTY>
+    <PROPERTY name="Adventure" type="String">A</PROPERTY>
+    <PROPERTY name="Mice" type="String">M</PROPERTY>
+    <PROPERTY name="Education" type="String">E</PROPERTY>
+    <PROPERTY name="Worker" type="String">W</PROPERTY>
+    <PROPERTY name="Package" type="String">P</PROPERTY>
+    <PROPERTY name="Others" type="String">O</PROPERTY>
+  </GROUP>
+  <GROUP name="GMSSQDIRECT_BOOKING_CLASS">  
+    <PROPERTY name="First" type="String">P</PROPERTY>
+    <PROPERTY name="Business" type="String">J</PROPERTY>
+    <PROPERTY name="Economy with FFP" type="String">U</PROPERTY>
+    <PROPERTY name="Economy without FFP" type="String">G</PROPERTY>   
+  </GROUP>
+  <GROUP name="DISPLAY_BOOKING_CLASS">  
+    <PROPERTY name="P" type="String">First</PROPERTY>
+    <PROPERTY name="J" type="String">Business</PROPERTY>
+    <PROPERTY name="U" type="String">Economy with FFP</PROPERTY>
+    <PROPERTY name="G" type="String">Economy without FFP</PROPERTY>   
+  </GROUP>
+
+  <GROUP name="GMSSQDIRECT_FILE_PATH">  
+    <PROPERTY name="File_Path" type="String">/prod/applc/jbosseap/sqdirect/</PROPERTY>  
+    <PROPERTY name="Image_Path" type="String">/prod/applc/jbosseap/sqdirect/saa3/taw2Web/img/gms/SIA_logo.gif</PROPERTY>
+    <!-- Added for MKP91799-->
+    <PROPERTY name="Footer_Path" type="String">/prod/applc/jbosseap/sqdirect/saa3/taw2Web/img/etFooter.JPG</PROPERTY>
+    <PROPERTY name="Tmp_File_Path" type="String">/prod/applc/jbosseap/sqdirect/applications</PROPERTY>
+  </GROUP>
+  <!-- GMS Phase 2 - MKP91351 - Mariyam - Ends Here-->
+
+  <!--GMS Phase 2 - MKP91351 - Lakshmi - Starts Here -->
+  <GROUP name="SQDirectStatus">
+  <GROUP name="requeststatus">
+    <!--<PROPERTY name="PE" type="String">PGA,PGM,PMP,PMS,PSR,RPN,PNO,PPA,OAS,AOF,AOA,RRN,RRP,RRG,RPM</PROPERTY>-->
+    <PROPERTY name="PE" type="String">PGA,PGM,PMP,PMS,PSR,RPN,PNO,PPA,OAS,AOF,AOA,RRP,RPM</PROPERTY>
+    <PROPERTY name="PRE" type="String">PRE</PROPERTY>
+    <!-- <PROPERTY name="RR" type="String">RRS,RRA,ORA,ORS</PROPERTY> -->
+    <PROPERTY name="RR" type="String">RRS,RRA,ORA,ORS,RRN,RRG</PROPERTY>
+    <PROPERTY name="OAV" type="String">OMD</PROPERTY>
+    <PROPERTY name="OAC" type="String">ACS,ACA</PROPERTY>   
+    <PROPERTY name="OE" type="String">OEX</PROPERTY>    
+    <PROPERTY name="RW" type="String">RWA,RWS</PROPERTY>
+  </GROUP>
+  </GROUP>
+  <!-- GMS Phase 2 - MKP91351 - Lakshmi - Ends Here-->
+
+  <!-- Added for MKP91489 FDS Enhancement starts on 28 May -->
+    <GROUP name="DeviceFingerPrint">
+      <PROPERTY name="URLAddress" type="String">https://ci-mpsnare.iovation.com/snare.js</PROPERTY>
+    </GROUP>
+  <!-- Added for MKP91489 FDS Enhancement starts on 28 May -->
+  <!-- Added for Paypal MKP91529 Starts -->
+  <GROUP name="PaypalFailureMail">
+    <PROPERTY name="toAddress1" type="String">ak_george@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="toAddress2" type="String">ak_george@singaporeair.com.sg</PROPERTY>
+    <PROPERTY name="subject" type="String">INT</PROPERTY>
+    <PROPERTY name="fromAddress" type="String">AS_SAA@singaporeair.com.sg</PROPERTY>  
+  </GROUP>
+
+  <GROUP name="WebServerConfig">
+    <PROPERTY name="AlipayRedirectURL" type="String">http://www.saa-uat.sq.com.sg/spsl/ddAlipayRedirect.jspx</PROPERTY>
+    <PROPERTY name="PaypalRedirectURL" type="String">http://www.saa-uat.sq.com.sg/spsl/payPal.jspx</PROPERTY>
+  </GROUP>
+
+  <!-- Added for Paypal MKP91529 Ends -->
+<!-- PBSS - Added by Kavitha for SQDirect-PBSS- 14 July 2011 - Starts Here -->  
+  <GROUP name="Webservice">
+    <GROUP name="iAgentPNR">
+      <PROPERTY name="EndPointAddress" type="String">http://192.168.144.26:80/web/res/agentservicing/pnr</PROPERTY>
+    </GROUP>
+    <GROUP name="iAgentSchedule">
+      <PROPERTY name="EndPointAddress" type="String">http://192.168.144.26:80/web/inv/agentsetup/schedule</PROPERTY>
+    </GROUP>
+    <GROUP name="iAgentSecurity">
+      <PROPERTY name="EndPointAddress" type="String">http://192.168.144.26:80/web/common/agentsecurity</PROPERTY>
+    </GROUP>
+    <GROUP name="iAgentTktPricing">
+      <PROPERTY name="EndPointAddress" type="String">http://192.168.144.26:80/web/tkt/agentfares/pricing</PROPERTY>
+    </GROUP>
+    <GROUP name="iAgentTktAid">
+      <PROPERTY name="EndPointAddress" type="String">http://192.168.144.26:80/web/tkt/agentissuance/air</PROPERTY>
+    </GROUP>
+
+    <GROUP name="iCommand">
+      <PROPERTY name="EndPointAddress" type="String">http://192.168.144.26:80/util/interface/command</PROPERTY>
+    </GROUP>
+<!--Added for ASPIRE by Vinodhini starts-->
+    <GROUP name="iAgentGroup">
+      <PROPERTY name="EndPointAddress" type="String">http://192.168.144.26:80/inv/agent/group</PROPERTY>
+    </GROUP>
+
+
+<!--Added for ASPIRE by Vinodhini ends-->
+
+
+    <GROUP name="altea">
+      <PROPERTY name="userID" type="String">WSSQDSA</PROPERTY>
+      <PROPERTY name="passWord" type="String">AMADEUS</PROPERTY>
+    </GROUP>    
+  </GROUP>
+  <!-- PBSS - Added by Kavitha for SQDirect-PBSS- 14 July 2011 - Ends Here -->
+
+  <GROUP name="BATCH_TICKETING">
+    <PROPERTY name="SIZE" type="int">5</PROPERTY>
+    <PROPERTY name="SWITCH" type="boolean">true</PROPERTY>
+  </GROUP>
+
+
+  <GROUP name="GROUP_TICKETING">    
+    <PROPERTY name="SWITCH" type="boolean">true</PROPERTY>
+    
+    
+  </GROUP>
+
+    <GROUP name="GROUP_TICKETING_STATIONS">
+       <!--
+    <PROPERTY name="HKG" type="String">HKG</PROPERTY>
+    <PROPERTY name="TPE" type="String">TPE</PROPERTY>
+    <PROPERTY name="BJS" type="String">BJS</PROPERTY>
+    <PROPERTY name="SZX" type="String">SZX</PROPERTY>
+    <PROPERTY name="TSN" type="String">TSN</PROPERTY>
+    <PROPERTY name="CAN" type="String">CAN</PROPERTY>
+    <PROPERTY name="SHA" type="String">SHA</PROPERTY>
+    <PROPERTY name="DAC" type="String">DAC</PROPERTY>
+    <PROPERTY name="CGP" type="String">CGP</PROPERTY>
+    <PROPERTY name="BLR" type="String">BLR</PROPERTY>
+    <PROPERTY name="IXW" type="String">IXW</PROPERTY>
+    <PROPERTY name="MYQ" type="String">MYQ</PROPERTY>
+    <PROPERTY name="IXM" type="String">IXM</PROPERTY>
+    <PROPERTY name="STV" type="String">STV</PROPERTY>
+    <PROPERTY name="CCU" type="String">CCU</PROPERTY>
+    <PROPERTY name="PNY" type="String">PNY</PROPERTY>
+    <PROPERTY name="RAJ" type="String">RAJ</PROPERTY>
+    <PROPERTY name="BOM" type="String">BOM</PROPERTY>
+    <PROPERTY name="DEL" type="String">DEL</PROPERTY>
+    <PROPERTY name="LKO" type="String">LKO</PROPERTY>
+    <PROPERTY name="QJU" type="String">QJU</PROPERTY>
+    <PROPERTY name="IXG" type="String">IXG</PROPERTY>
+    <PROPERTY name="IXE" type="String">IXE</PROPERTY>
+    <PROPERTY name="GAU" type="String">GAU</PROPERTY>
+    <PROPERTY name="BDQ" type="String">BDQ</PROPERTY>
+    <PROPERTY name="TRZ" type="String">TRZ</PROPERTY>
+    <PROPERTY name="MAA" type="String">MAA</PROPERTY>
+    <PROPERTY name="RPR" type="String">RPR</PROPERTY>
+    <PROPERTY name="DED" type="String">DED</PROPERTY>
+    <PROPERTY name="BBI" type="String">BBI</PROPERTY>
+    <PROPERTY name="CJB" type="String">CJB</PROPERTY>
+    <PROPERTY name="AMD" type="String">AMD</PROPERTY>
+    <PROPERTY name="IXC" type="String">IXC</PROPERTY>
+    <PROPERTY name="IDR" type="String">IDR</PROPERTY>
+    <PROPERTY name="JAI" type="String">JAI</PROPERTY>
+    <PROPERTY name="AMI" type="String">AMI</PROPERTY>
+    <PROPERTY name="AMQ" type="String">AMQ</PROPERTY>
+    <PROPERTY name="BDJ" type="String">BDJ</PROPERTY>
+    <PROPERTY name="BDO" type="String">BDO</PROPERTY>
+    <PROPERTY name="BEJ" type="String">BEJ</PROPERTY>
+    <PROPERTY name="BIK" type="String">BIK</PROPERTY>
+    <PROPERTY name="BJG" type="String">BJG</PROPERTY>
+    <PROPERTY name="BKS" type="String">BKS</PROPERTY>
+    <PROPERTY name="BPN" type="String">BPN</PROPERTY>
+    <PROPERTY name="BTH" type="String">BTH</PROPERTY>
+    <PROPERTY name="BTJ" type="String">BTJ</PROPERTY>
+    <PROPERTY name="BTW" type="String">BTW</PROPERTY>
+    <PROPERTY name="BXT" type="String">BXT</PROPERTY>
+    <PROPERTY name="BYQ" type="String">BYQ</PROPERTY>
+    <PROPERTY name="CBN" type="String">CBN</PROPERTY>
+    <PROPERTY name="CPF" type="String">CPF</PROPERTY>
+    <PROPERTY name="CXP" type="String">CXP</PROPERTY>
+    <PROPERTY name="DJJ" type="String">DJJ</PROPERTY>
+    <PROPERTY name="DPS" type="String">DPS</PROPERTY>
+    <PROPERTY name="DUM" type="String">DUM</PROPERTY>
+    <PROPERTY name="FKQ" type="String">FKQ</PROPERTY>
+    <PROPERTY name="GNS" type="String">GNS</PROPERTY>
+    <PROPERTY name="JKT" type="String">JKT</PROPERTY>
+    <PROPERTY name="JOG" type="String">JOG</PROPERTY>
+    <PROPERTY name="KDI" type="String">KDI</PROPERTY>
+    <PROPERTY name="KRC" type="String">KRC</PROPERTY>
+    <PROPERTY name="KTG" type="String">KTG</PROPERTY>
+    <PROPERTY name="LSW" type="String">LSW</PROPERTY>
+    <PROPERTY name="LSX" type="String">LSX</PROPERTY>
+    <PROPERTY name="MDC" type="String">MDC</PROPERTY>
+    <PROPERTY name="MES" type="String">MES</PROPERTY>
+    <PROPERTY name="MKQ" type="String">MKQ</PROPERTY>
+    <PROPERTY name="MKW" type="String">MKW</PROPERTY>
+    <PROPERTY name="MLG" type="String">MLG</PROPERTY>
+    <PROPERTY name="MOF" type="String">MOF</PROPERTY>
+    <PROPERTY name="NBX" type="String">NBX</PROPERTY>
+    <PROPERTY name="NDA" type="String">NDA</PROPERTY>
+    <PROPERTY name="PCB" type="String">PCB</PROPERTY>
+    <PROPERTY name="PDG" type="String">PDG</PROPERTY>
+    <PROPERTY name="PDO" type="String">PDO</PROPERTY>
+    <PROPERTY name="PGK" type="String">PGK</PROPERTY>
+    <PROPERTY name="PKN" type="String">PKN</PROPERTY>
+    <PROPERTY name="PKU" type="String">PKU</PROPERTY>
+    <PROPERTY name="PKY" type="String">PKY</PROPERTY>
+    <PROPERTY name="PLM" type="String">PLM</PROPERTY>
+    <PROPERTY name="PLW" type="String">PLW</PROPERTY>
+    <PROPERTY name="PNK" type="String">PNK</PROPERTY>
+    <PROPERTY name="PSJ" type="String">PSJ</PROPERTY>
+    <PROPERTY name="PSU" type="String">PSU</PROPERTY>
+    <PROPERTY name="PWL" type="String">PWL</PROPERTY>
+    <PROPERTY name="SBG" type="String">SBG</PROPERTY>
+    <PROPERTY name="SGQ" type="String">SGQ</PROPERTY>
+    <PROPERTY name="SMQ" type="String">SMQ</PROPERTY>
+    <PROPERTY name="SOC" type="String">SOC</PROPERTY>
+    <PROPERTY name="SOQ" type="String">SOQ</PROPERTY>
+    <PROPERTY name="SRG" type="String">SRG</PROPERTY>
+    <PROPERTY name="SRI" type="String">SRI</PROPERTY>
+    <PROPERTY name="SUB" type="String">SUB</PROPERTY>
+    <PROPERTY name="SUP" type="String">SUP</PROPERTY>
+    <PROPERTY name="TIM" type="String">TIM</PROPERTY>
+    <PROPERTY name="TJS" type="String">TJS</PROPERTY>
+    <PROPERTY name="TKG" type="String">TKG</PROPERTY>
+    <PROPERTY name="TLI" type="String">TLI</PROPERTY>
+    <PROPERTY name="TMH" type="String">TMH</PROPERTY>
+    <PROPERTY name="TNB" type="String">TNB</PROPERTY>
+    <PROPERTY name="TNJ" type="String">TNJ</PROPERTY>
+    <PROPERTY name="TTE" type="String">TTE</PROPERTY>
+    <PROPERTY name="TTR" type="String">TTR</PROPERTY>
+    <PROPERTY name="UPG" type="String">UPG</PROPERTY>
+    <PROPERTY name="SIN" type="String">SIN</PROPERTY>
+       -->
+     <PROPERTY name="*" type="String">*</PROPERTY>
+  </GROUP>
+  <!--Added for MKP92005 Enhancement ends -->
+  <!--Added for MKP92486 by Vinodhini starts-->
+<GROUP name="DGQFCheck">
+    <PROPERTY name="DGQFFlag" type="boolean">false</PROPERTY>
+    <!--"True" value implies the old logic validation(basefare>=netfare)-->
+    <!--"False" value implies the new logic validation(basefare+YQ>=netfare)-->
+</GROUP>
+<!--Added for MKP92486 by Vinodhini ends-->
+  
+  <!--  Code changes for MKP92202 - ASPIRE by Prasanth starts  -->
+  <GROUP name="FLIGHTCODE">
+        <PROPERTY name="FLIGHTCODE" type="String">SQ,MI</PROPERTY>
+        <PROPERTY name="sq" type="String">SQ</PROPERTY>
+        <PROPERTY name="mi" type="String">MI</PROPERTY>
+    </GROUP>
+    <!--  Code changes for MKP92202 - ASPIRE by Prasanth ends --> 
+
+
+  <!--Added for ASPIRE by Vinodhini starts-->
+  <GROUP name="DISPLAY_CABIN_CLASS">  
+    <PROPERTY name="First" type="String">F</PROPERTY>
+    <PROPERTY name="Business" type="String">J</PROPERTY>
+    <PROPERTY name="Economy with miles" type="String">Y</PROPERTY>
+    <PROPERTY name="Economy without miles" type="String">Y</PROPERTY> 
+    <PROPERTY name="Premium Economy" type="String">S</PROPERTY>
+  </GROUP>
+  
+
+<GROUP name="ALTEA_SELLING_CLASS">  
+    <PROPERTY name="First" type="String">A</PROPERTY>
+    <PROPERTY name="Business" type="String">U</PROPERTY>
+    <PROPERTY name="Economy with miles" type="String">G</PROPERTY>
+    <PROPERTY name="Economy without miles" type="String">G</PROPERTY> 
+    <PROPERTY name="Premium Economy" type="String">P</PROPERTY>
+  </GROUP>
+  <!--Added for ASPIRE by Vinodhini ends -->
+
+  <!--Added for MKP92202 Aspire starts by Roy -->
+  <GROUP name="SQDirectRequestStatus">  
+  <PROPERTY name="PE" type="String">Pending finalisation,Pending RM analyst approval,Pending group record creation,Pending quotation</PROPERTY>
+    <PROPERTY name="PRE" type="String">Pending quotation</PROPERTY>
+    <PROPERTY name="PRN" type="String">Pending renegotiation</PROPERTY>
+    <PROPERTY name="RR" type="String">Rejected</PROPERTY>
+    <PROPERTY name="OAV" type="String">Pending customer approval</PROPERTY>
+    <PROPERTY name="OAC" type="String">Confirmed</PROPERTY>   
+    <PROPERTY name="OE" type="String">Offer Expired</PROPERTY>
+    <PROPERTY name="WIT" type="String">Cancelled</PROPERTY>
+    </GROUP>
+    
+<GROUP name="SQDirectResponseStatus"> 
+  <PROPERTY name="PF" type="String">Pending Evaluation</PROPERTY>
+  <PROPERTY name="PRE" type="String">Pending Re-evaluation</PROPERTY>
+  <PROPERTY name="CMF" type="String">Offer Accepted</PROPERTY>
+  <PROPERTY name="OA" type="String">Offer Available</PROPERTY>
+  <PROPERTY name="CAN" type="String">Request Withdrawn</PROPERTY>
+  <PROPERTY name="RR" type="String">Request Rejected</PROPERTY>
+</GROUP>
+
+    <GROUP name="SQDirectRequestType">  
+    <PROPERTY name="ADC" type="String">Adhoc</PROPERTY>
+    <PROPERTY name="SER" type="String">Series</PROPERTY>
+    </GROUP>
+  <!--Added for MKP92202 Aspire ends by Roy -->
+  
+  <GROUP name="SQDIRECT_KEY">   
+
+    <PROPERTY name="API_KEY" type="String">7e168914198864b1e87a03bcc072906f50a451ea</PROPERTY>
+
+    <PROPERTY name="SQ_PASSWORD" type="String">TAWSMTSTORE</PROPERTY>
+
+    <PROPERTY name="BASE_URL" type="String">https://192.168.134.76:7532/sqdirect/TAWQueueServlet?forwardAction=/sqdirect/Account/talogin.jspx</PROPERTY>
+
+  </GROUP>
+
+</ALL>
+
+
+
+

@@ -1,0 +1,317 @@
+##########################################
+## Ansible tasks for Jboss application configurations during EC2 Init
+##########################################
+
+# Python pip.
+- name: Install Python Pip packages
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - awscli
+    - boto
+    - boto3
+    - botocore
+
+- name: yum install
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - dos2unix
+    - perl
+    - jq
+    - cloud-utils
+
+- name: Setup boto env vars for lscs usage.
+  lineinfile:
+    dest: /etc/environment
+    regexp: '^AWS_DEFAULT_REGION'
+    line: "AWS_DEFAULT_REGION={{ host_region }}"
+    owner: root
+    group: root
+    mode: 0644
+
+# User can be only in lscs/odn (ansible common role created ops users already, that also handles user removal).
+
+- name: Adding Users to EC2 instance example - sqdirect
+  user: name="{{ item.key }}" comment="{{ item.value.name }}" groups="{{ item.value.unixgroups | union(admingroups) | join(',') }}" shell="{{ item.value.shell|default('/bin/bash') }}"
+  when: item.value.remove is not defined and item.value.orggroups is defined and 'sqdirect' in item.value.orggroups
+  with_dict: "{{ users }}"
+
+- name: Adding Users SSH Keys example - sqdirect
+  authorized_key: user="{{ item.key }}" key="{{ item.value.ssh_key }}"
+  when: item.value.remove is not defined and item.value.orggroups is defined and 'sqdirect' in item.value.orggroups
+  with_dict: "{{ users }}"
+
+# Amazon SSM agent should be running for lifecycle hook implementation
+- name: Start service amazon-ssm-agent, if not started
+  service:
+    name: amazon-ssm-agent
+    state: started
+
+# Loading variables from context
+- name: Include vars of context.yaml
+  include_vars:
+    file: /opt/pipeline/app/context/context.yaml
+
+
+# Datasource configurations
+- name: Ansible copy mysql java connector and module.xml to jboss modules
+  copy:
+    src: roles/jboss/files/mysql-module/
+    dest: "{{ jboss_eap_home }}/modules/com/mysql/main/"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"
+
+# Create directory for configurations
+- name: Creates directory for pdf content
+  file:
+    path: "{{ jboss_eap_home }}/sqdirect/bpconfig/"
+    state: directory
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"
+
+- name: Creates directory for images
+  file:
+    path: "{{ jboss_eap_home }}/sqdirect/saa3/taw2Web/img/gms/"
+    state: directory
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"
+
+- name: Creates directory for config
+  file:
+    path: "{{ jboss_eap_home }}/sqdirect/xmlconfig/"
+    state: directory
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"
+
+- name: Creates directory tmp
+  file:
+    path: "/home/ec2-user/tmp/"
+    state: directory
+    mode: "755"
+
+- name: Creates directory certificate
+  file:
+    path: "/home/ec2-user/certificate/"
+    state: directory
+    mode: "755"
+
+- name: Creates directory applications
+  file:
+    path: "{{ jboss_eap_home }}/sqdirect/applications/"
+    state: directory
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"
+
+- name: Creates directory applications
+  file:
+    path: "{{ jboss_eap_home }}/sqdirect/log/application/"
+    state: directory
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"    
+
+# Create folder in S3 for application
+- name: create folder in s3 for PODS
+  shell: |
+    aws s3api put-object --bucket {{logsbucket.BucketName}} --key pods/output/
+
+# Create folder in S3 for deployment
+- name: create folder in s3 for WAR deployment
+  shell: |
+    aws s3api put-object --bucket {{logsbucket.BucketName}} --key deploy/
+
+# Jboss console admin user creation with stored password in secret manager
+- name: retrieve secret-admin password
+  shell: |
+    aws secretsmanager get-secret-value --secret-id "{{ secretadmin.SecretArn }}" \
+    --region $PIPELINE_AWS_REGION \
+    --output text --query SecretString | jq .password -r
+  register: admin_password
+
+- name: Jboss Admin user creation for Management Interfaces
+  shell: /opt/jboss-as/jboss*/bin/add-user.sh Administrator \'{{admin_password.stdout}}\'
+
+#Database configuration
+# - name: retrieve database password
+#   shell: |
+#     aws secretsmanager get-secret-value --secret-id "{{ sqdsqldb.DbSecretId }}" \
+#     --region $PIPELINE_AWS  _REGION \
+#     --output text --query SecretString | jq .password -r
+#   register: db_secret_value
+
+# - name: Create mysql JDBC driver
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=datasources/jdbc-driver={{DB.driver}}:add(driver-name={{DB.driver}},driver-module-name=com.{{DB.driver}})\""
+
+# - name: Create JDBC datasources
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"data-source add --jndi-name=java:/{{ DB.datasource_pool_name }} --name={{ DB.datasource_pool_name }} --connection-url=jdbc:mysql://{{ DB.dbendpoint }}:3306/{{ DB.database }} --driver-name={{DB.driver}} --user-name=weblogic --password=sia@123\""
+
+# Copy from S3 the PDF and images
+- name: copy from S3 to sqdirect folder
+  shell: |
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/arial.ttf "{{ jboss_eap_home }}/sqdirect/bpconfig/"
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/arialbd.ttf "{{ jboss_eap_home }}/sqdirect/bpconfig/"
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/SIA_logo.gif "{{ jboss_eap_home }}/sqdirect/saa3/taw2Web/img/gms/"
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/etFooter.JPG "{{ jboss_eap_home }}/sqdirect/saa3/taw2Web/img/"
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/sqdirect.ear /home/ec2-user/tmp/
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/server.cer /home/ec2-user/certificate/
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/dataprovider.dtd "{{ jboss_eap_home }}/sqdirect/xmlconfig/"
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/dataprovider.xml "{{ jboss_eap_home }}/sqdirect/xmlconfig/"
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/dynamicproperties.xml "{{ jboss_eap_home }}/sqdirect/xmlconfig/"
+    aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/dynamicproperties.dtd "{{ jboss_eap_home }}/sqdirect/xmlconfig/"
+ #aws s3 cp s3://sm-sqdapp-master-logsbucket/deploy/en_UK.zip /home/ec2-user/tmp/
+# JMS Settings:
+# - name: Adding a Queue
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=messaging-activemq/server=default/jms-queue=jmsQueue/:add(entries=[\"java:/jms/queue/jmsQueue\"])\""
+
+# # Install SSL certificate
+# - name: Remove default server  
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=undertow/server=default-server/https-listener=https:remove\"" 
+# - name: Add HTTPS realm
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/core-service=management/security-realm=CertificateRealm/:add\""
+# - name: Add certificate to the realm
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/core-service=management/security-realm=CertificateRealm/server-identity=ssl:add(keystore-path=/opt/pipeline/ansible/roles/jboss/files/certs/keystore.jks,keystore-password=\"changeit\", alias=\"ec2instance\")\""
+# - name: Add Truststore to the realm
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/core-service=management/security-realm=CertificateRealm/authentication=truststore:add(keystore-path=/opt/pipeline/ansible/roles/jboss/files/certs/cacerts.jks,keystore-password=\"changeit\")\""
+# - name: Add back default server with SSL  
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=undertow/server=default-server/https-listener=https:add(socket-binding=https, security-realm=CertificateRealm)\"" 
+# - name: Reload after https-listener
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"reload\""
+
+# # Auto Deployment
+# - name: Disable auto-deploy
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=deployment-scanner/scanner=default:write-attribute(name=auto-deploy-zipped,value=false)\""
+# - name: Enable exploded deploy
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=deployment-scanner/scanner=default:write-attribute(name=auto-deploy-exploded,value=true)\""
+# - name: Add deployment-interval deploy
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=deployment-scanner/scanner=new:add(deployment-timeout=600000,path=\"deployments\")\""  
+# - name: Add scan-value deploy
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=deployment-scanner/scanner=default:write-attribute(name=scan-interval,value=0)\""
+
+# #Logging Configuration
+# - name: Jboss logging - Updating All log level to com.arjuna logger
+#   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh --connect --commands=\"/subsystem=logging/logger=com.arjuna:change-log-level(level=WARN)\""
+
+#Replace standalone-full.xml
+- name: Ansible replace standalone-full.xml to jboss modules
+  copy:
+    src: roles/jboss/files/config/standalone-full.xml
+    dest: "{{ jboss_eap_home }}/standalone/configuration/"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"
+
+- name: "Set Java Options Update standalone-standalone.conf "
+  lineinfile:
+    dest: "{{ jboss_eap_home }}/bin/standalone-standalone.conf"
+    line: "JAVA_OPTS=\"$JAVA_OPTS -Dcfdynaproppath=/opt/jboss-as/jboss-eap-7.2/sqdirect/xmlconfig/\""
+
+
+# #Copy files to respective locations
+# - name: copy config files
+#   copy:
+#     src: roles/jboss/files/xmlconfig/
+#     dest: "{{ jboss_eap_home }}/sqdirect/xmlconfig/"
+#     owner: "{{ jboss_eap_user }}"
+#     group: "{{ jboss_eap_group }}"
+#     mode: "755"
+
+# Extract and unzip files
+# - name: Extract zip
+#   unarchive:
+#     src: "/home/ec2-user/tmp/en_UK.zip"
+#     dest: "/home/ec2-user/tmp/"
+
+- name: Creates directory tmp
+  file:
+    path: "{{ jboss_eap_home }}/standalone/deployments/sqdirect.ear/"
+    state: directory
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"
+
+# Application Deployment
+- name: Extract sqdirect ear file
+  unarchive:
+    src: "/home/ec2-user/tmp/sqdirect.ear"
+    dest: "{{ jboss_eap_home }}/standalone/deployments/sqdirect.ear/"
+
+- name: Rename taw2Web.war to taw2Web_bkp.war
+  command: mv "{{ jboss_eap_home }}/standalone/deployments/sqdirect.ear/taw2Web.war" "{{ jboss_eap_home }}/standalone/deployments/sqdirect.ear/taw2Web_bkp.war"
+
+- name: change directory and unzip war
+  shell:
+    cmd: unzip -o taw2Web_bkp.war -d taw2Web.war
+    creates: taw2Web.war
+    chdir: "{{ jboss_eap_home }}/standalone/deployments/sqdirect.ear/"
+
+- name: Delete directory taw2Web_bkp.war
+  file:
+    path: "{{ jboss_eap_home }}/standalone/deployments/sqdirect.ear/taw2Web_bkp.war"
+    state: absent    
+
+# Mount the unzipped files
+- name: Mount and bind
+  mount:
+    path: "{{ jboss_eap_home }}/standalone/deployments/sqdirect.ear/taw2Web.war/en_UK/"
+    src: "/sqdirect/sqdirect/sqdirect/dist/saa3/taw2Web/en_UK/"
+    opts: bind
+    state: mounted
+    fstype: none
+
+#Restart server for changes to be effective
+- name: Restart JBoss 
+  become: true 
+  service: 
+    name: jboss-standalone
+    state: restarted 
+
+# Sanity test if everything was setup right and JBoss is running 
+- name: Verify JBoss is running 
+  wait_for: port=9990 host=127.0.0.1 timeout=120 
+  notify: Check JBoss is available 
+ 
+- name: Check JBoss is available 
+  uri: 
+    url: "http://127.0.0.1:9990"
+
+- name: cron job to archive rotated logs to s3
+  copy:
+    content: |
+      #!/bin/bash
+      EC2_INSTANCE_ID=$(ec2metadata --instance-id)
+      tar -zcvf  /tmp/log.zip `find /prod/applc/jbosseap/sqdirect/logs/application -name *.log\* -type f -mtime +2`
+      aws s3 cp /tmp/log.zip {{logsbucket.BucketS3Url}}/logs-rotation/$EC2_INSTANCE_ID/`date +%Y-%m-%dT%H`/log.zip
+      rm -rf /tmp/log.zip
+      find /prod/applc/jbosseap/sqdirect/logs/application -name *.log\* -type f -mtime +2 -exec rm -rf {} \;
+    dest: "{{ jboss_eap_home }}/standalone/configuration/logs-backup-s3.sh"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"
+
+- name: Cron job for logs backup
+  cron:
+    name: logs backup to s3
+    minute: "15"
+    hour: "00"  
+    job: /bin/bash {{ jboss_eap_home }}/standalone/configuration/logs-backup-s3.sh
+
+#Lifecyclehook script to backup active logs 
+- name: Script for taking running logs backup run by lifecycle hook
+  copy:
+    content: |
+      #!/bin/bash
+      EC2_INSTANCE_ID=$(ec2metadata --instance-id)
+      gzip -c {{ jboss_eap_home }}/sqdirect/logs/application/*.log > /tmp/active_log.gz
+      aws s3 cp /tmp/active_log.gz {{logsbucket.BucketS3Url}}/logs-EC2-terminated/$EC2_INSTANCE_ID/active_log.gz
+    dest: "{{ jboss_eap_home }}/standalone/configuration/activelogs-backup-s3.sh"
+    owner: "{{ jboss_eap_user }}"
+    group: "{{ jboss_eap_group }}"
+    mode: "755"

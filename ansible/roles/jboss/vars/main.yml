@@ -1,0 +1,17 @@
+logs:
+  # TODO determine use of these, if any.
+  - file: "/var/log/audit/audit.log"
+    format: "%b %d %H:%M:%S"
+    group_name: "auth"
+    stream_name: "auth-stream"
+  - file: "/var/log/secure"
+    format: "%b %d %H:%M:%S"
+    group_name: "auth"
+    stream_name: "auth-stream"
+
+DB:
+  driver: mysql
+  datasource_pool_name: saaDataSource
+  database: WEBLOGIC
+  dbendpoint: sqdsqldb.master.sqdapp.sm.sin.auto.prod.c0.sq.com.sg
+  username: weblogic

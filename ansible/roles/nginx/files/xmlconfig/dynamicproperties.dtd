@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.0.7 NT (http://www.xmlspy.com) by Ben Burdsall (Accenture) -->
+<!ELEMENT ALL (GROUP*, PROPERTY*)>
+<!ELEMENT GROUP (GROUP*, PROPERTY*)>
+<!ELEMENT PROPERTY (#PCDATA)>
+<!ATTLIST PROPERTY
+	name CDATA #REQUIRED
+	type (String | int | float | boolean) #REQUIRED
+>
+<!ATTLIST GROUP
+	name CDATA #REQUIRED
+>
