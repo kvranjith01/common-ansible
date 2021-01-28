@@ -1,0 +1,13 @@
+[localhost]
+locahost ansible_connection=local
+[dbservers]
+127.0.0.1
+
+[ec2servers]
+53.45.21.70
+58.43.89.21
+
+[jboss]
+53.45.21.70
+58.43.89.21
+ansible-playbook -i inventory ansible.yml -l localhost -t precheck-ngnix, setup-ngnix

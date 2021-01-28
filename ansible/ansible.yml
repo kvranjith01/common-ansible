@@ -1,12 +1,13 @@
-- hosts: localhost 
+- hosts: jboss, localhost
   become: yes 
   become_method: sudo
- 
   tasks: 
+  - name: setup jboss
+    include_task:  "roles/jboss/tasks/main.yml"
 
-    - include_role: 
-        name: nginx
-      
-    
- 
-  
+- hosts: nginx, localhost
+  become: yes 
+  become_method: sudo
+  tasks: 
+  - name: setup jboss
+    include_task:  "roles/nginx/tasks/main.yml"

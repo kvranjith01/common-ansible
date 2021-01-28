@@ -1,18 +1,32 @@
 ##########################################
 ## Ansible tasks for Nginx application configurations during EC2 Init
 ##########################################
+---
+
+# Validate Nginx service
+- name: validated Nginx
+  service: 
+    name: nginx
+    state: started
+    enabled: yes
+  ignore_errors: yes
+  tags: precheck-ngnix
 
 # Copy rpm file from s3
 - name: Copy Nginx rpm from s3
   shell: |
-    aws cp s3://moe-core-automation-ap-southeast-1/Binary/nginx/nginx-1.18.0-2.el8.ngx.x86_64.rpm /tmp/nginx.rpm
-  
+    aws s3 cp s3://moe-core-automation-ap-southeast-1/Binary/nginx/nginx-1.18.0-2.el8.ngx.x86_64.rpm /tmp/nginx.rpm
+  tags: setup-ngnix
+
 # Install nginx offline
 - name: Install Nginx local flie
-  yum: 
-    name: /tmp/nginx.rpm 
-    state: present
-  when: ansible_os_family == "RedHat"
+  # yum: 
+  #   name: /tmp/nginx.rpm 
+  #   state: present
+  # when: ansible_os_family == "RedHat"
+  shell: yum localinstall -y /tmp/nginx.rpm
+  warn: false
+  tags: setup-ngnix
 
 - name: copy nginx site.conf
   template:
@@ -21,11 +35,5 @@
     owner: root
     group: root
     mode: '0644'
-  notify: 
-  - Restart nginx
+  tags: setup-ngnix
 
-handlers:
-  - name: Restart nginx
-    ansible.builtin.service:
-      name: nginx
-      state: restarted
